@@ -11,20 +11,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rikvanvelzen.codingtest.R
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
-import com.rikvanvelzen.codingtest.ui.components.CurrencyDiffCallback
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 import java.util.*
 import java.util.Collections.swap
 
-/**
- * Created by Rik van Velzen, Norakomi Software Development.
- * Copyright (c) 2020. All rights reserved
- */
 class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = javaClass.simpleName
@@ -37,18 +31,13 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
      *********************************/
 
     fun setData(data: List<Currency>) {
-        if (currencies.size > 0) return
-
+        if (currencies.size > 0) return // todo remove
         Log.e(TAG, "currency list size = " + data.size)
+
         currencies.clear()
         currencies.addAll(data)
 
         notifyDataSetChanged()
-    }
-
-    fun updateList(newList: ArrayList<Currency>) {
-        val diffResult = DiffUtil.calculateDiff(CurrencyDiffCallback(currencies, newList))
-        diffResult.dispatchUpdatesTo(this)
     }
 
     /*********************************
@@ -66,8 +55,6 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
         val binding = DataBindingUtil.inflate<CurrencyItemBinding>(
                 LayoutInflater.from(parent.context),
                 R.layout.currency_item, parent, false)
-
-
 
         return VHCurrencyConverterItem(binding, viewModel, lifecycleOwner)
     }

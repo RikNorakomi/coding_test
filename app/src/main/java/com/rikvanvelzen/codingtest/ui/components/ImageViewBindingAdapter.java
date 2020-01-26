@@ -1,16 +1,19 @@
 package com.rikvanvelzen.codingtest.ui.components;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.rikvanvelzen.codingtest.R;
+import com.rikvanvelzen.codingtest.helpers.GlideApp;
 
 public class ImageViewBindingAdapter {
+
+    private final static int placeholderResId = R.drawable.ic_image_black_24dp;
 
     @BindingAdapter({"bind:loadImage", "bind:errorDrawable"})
     public static void loadImage(ImageView view, String imageUrl, Drawable errorDrawable) {
@@ -34,18 +37,12 @@ public class ImageViewBindingAdapter {
 
         if (imageUrl != null && !imageUrl.isEmpty()) {
 
-            Glide.with(view.getContext())
+            GlideApp.with(view.getContext())
                     .load(imageUrl)
-                    .apply(new RequestOptions()
-                            .fitCenter()
-
-                            .error(R.drawable.ic_image_black_24dp))
-
-//                    .apply(RequestOptions.circleCropTransform())
+                    .apply(new RequestOptions().error(placeholderResId))
                     .into(view);
-
         } else {
-            view.setImageResource(R.drawable.ic_image_black_24dp);
+            view.setImageResource(placeholderResId);
         }
     }
 }

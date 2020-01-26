@@ -35,8 +35,8 @@
             android:layout_height="@dimen/currency_icon_size"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            bind:loadImage="@{viewModel.getCountryFlagIconUrl(currency)}"
+            android:layout_marginEnd="16dp"
+            bind:loadImage="@{(currency == null) ? null : viewModel.getCountryFlagIconUrl(currency)}"
             tools:src="@drawable/ic_image_black_24dp" />
 
         <LinearLayout
@@ -75,8 +75,6 @@
             android:inputType="numberDecimal"
             tools:ignore="HardcodedText"
             tools:text="2312.22" />
-
-        <!--        android:text="@{currency == null ? `` : viewModel.getExchangeRate(currency)}"-->
 
     </RelativeLayout>
 

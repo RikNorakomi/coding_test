@@ -6,6 +6,7 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.currencies
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -73,15 +74,14 @@ class CurrencyViewModel : BaseViewModel() {
         return currencyData as MediatorLiveData<List<Currency>>
     }
 
-    fun getCountryFlagIconUrl(currency: Currency?): String? {
-        if (currency == null) return ""
+    @SuppressLint("DefaultLocale")
+    fun getCountryFlagIconUrl(currency: Currency): String? {
 
-        val countryCode = currency.abbreviation?.substring(0, 2)
-//        Log.e(TAG, "countryCode=$countryCode")
-        return "https://www.countryflags.io/$countryCode/flat/64.png"
-//        return "hhttps://hatscripts.github.io/circle-flags/flags/$countryCode.svgg"
-
-//        return countryCode ?: "$countryFlagBaseUrl$countryCode/flat/64.png"
+        var countryCode = currency.abbreviation?.substring(0, 2)?.toLowerCase()
+        if (countryCode == "eu"){
+            countryCode = "european_union"
+        }
+        return "https://hatscripts.github.io/circle-flags/flags/$countryCode.svg"
     }
 
     /**************************************************
