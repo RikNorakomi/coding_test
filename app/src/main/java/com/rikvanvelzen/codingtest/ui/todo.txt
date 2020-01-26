@@ -1,0 +1,12 @@
+
+
+Country flags are loaded from countryflags.io:
+Example of how to create url for flags:
+<img src="https://www.countryflags.io/:country_code/:style/:size.png">
+
+Belgium flag fe.
+<img src="https://www.countryflags.io/be/flat/64.png">
+
+
+API Country names from currency abbreviation:
+https://docs.openexchangerates.org/docs/currencies-json

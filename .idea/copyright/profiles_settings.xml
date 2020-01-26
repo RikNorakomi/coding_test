@@ -1,0 +1,10 @@
+<component name="CopyrightManager">
+  <settings default="RIk van Velzen">
+    <module2copyright>
+      <element module="Project Files" copyright="RIk van Velzen" />
+    </module2copyright>
+    <LanguageOptions name="Kotlin">
+      <option name="fileTypeOverride" value="3" />
+    </LanguageOptions>
+  </settings>
+</component>

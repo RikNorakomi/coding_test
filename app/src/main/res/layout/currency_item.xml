@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel" />
+
+        <variable
+            name="currency"
+            type="com.rikvanvelzen.codingtest.data.models.domain.Currency" />
+
+        <import type="android.view.View" />
+
+        <!-- For design see:
+         https://www.figma.com/file/cUsxw4zNAvU47ADDCJemBM/Rates?node-id=13%3A535 />-->
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/currency_item_container"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/white"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        tools:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/currency_icon"
+            android:layout_width="@dimen/currency_icon_size"
+            android:layout_height="@dimen/currency_icon_size"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            bind:loadImage="@{viewModel.getCountryFlagIconUrl(currency)}"
+            tools:src="@drawable/ic_image_black_24dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/currency_icon"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/currency_abbreviation"
+                style="@style/currency_abbreviation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{currency.abbreviation}"
+                tools:text="GBP" />
+
+            <TextView
+                android:id="@+id/currency_name"
+                style="@style/currency_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{currency.name}"
+                tools:text="British Pound" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/currency_rate"
+            style="@style/currency_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:hint="0"
+            android:inputType="numberDecimal"
+            tools:ignore="HardcodedText"
+            tools:text="2312.22" />
+
+        <!--        android:text="@{currency == null ? `` : viewModel.getExchangeRate(currency)}"-->
+
+    </RelativeLayout>
+
+</layout>

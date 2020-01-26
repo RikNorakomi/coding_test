@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">coding test</string>
+
+    <!-- Currency screen -->
+    <string name="currency_activity_toolbar_title"><![CDATA[Rates & conversions]]></string>
+    <string name="currencies_tab_all_rates">All rates</string>
+    <string name="currencies_tab_converter">Converter</string>
+
+</resources>

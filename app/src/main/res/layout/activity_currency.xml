@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--    TODO: move toolbar section into separate file -->
+        <RelativeLayout
+            android:id="@+id/toolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?android:attr/colorPrimary"
+            android:elevation="@dimen/toolbar_elevation"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/toolbar_back_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{() -> viewModel.onBackButtonClicked()}"
+                android:padding="12dp"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="72dp"
+                android:gravity="center_vertical"
+                android:text="@string/currency_activity_toolbar_title"
+                android:textColor="@color/toolbarTextColor"
+                android:textSize="@dimen/toolbarTextSize" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/currency_activity_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_layout_height"
+            android:background="@color/colorPrimary"
+            android:elevation="@dimen/toolbar_elevation"
+            app:tabIndicatorColor="@android:color/black"
+            app:tabMode="fixed"
+            app:tabTextAppearance="@style/TabLayoutStyle" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/currency_activity_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
+
+</layout>
