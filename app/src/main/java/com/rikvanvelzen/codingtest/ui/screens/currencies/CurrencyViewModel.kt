@@ -6,14 +6,12 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.currencies
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
-import com.rikvanvelzen.codingtest.data.models.domain.CurrencyNames
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
 import com.rikvanvelzen.codingtest.kotlin.extensionfunctions.formatToTwoDecimals
@@ -23,15 +21,15 @@ import io.reactivex.disposables.Disposable
 
 class CurrencyViewModel : BaseViewModel() {
 
-    private val TAG = javaClass.simpleName
-
     private val currencyRepository = CurrencyRepository
     private var currencyData: MediatorLiveData<List<Currency>>? = null
-    private var currencyNames: MutableLiveData<List<CurrencyNames>> = MutableLiveData()
     private var baseCurrencyAbbreviation = "EUR"
     var baseCurrencyAmount: Float = 100F
 
-    private var selectedCurrencyAbbr: MutableLiveData<String> = MutableLiveData()
+
+    private var mCurrenciesListDisposable: Disposable? = null // todo move to basevm
+    private var currencyRatesDisposable: Disposable? = null // todo move to basevm
+
     private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
 
     /**************************************************
@@ -39,11 +37,6 @@ class CurrencyViewModel : BaseViewModel() {
      **************************************************/
 
     fun getTabLayoutItems(): Array<CurrencyTabItems> = CurrencyTabItems.values()
-
-    fun onBackButtonClicked() {
-        // not implemented for this code test
-    }
-
 
     fun getExchangeRate(currency: Currency): LiveData<String> {
         return Transformations.map(currencyRates) {
@@ -53,15 +46,8 @@ class CurrencyViewModel : BaseViewModel() {
                 amount = rate * baseCurrencyAmount
             }
 
-            getFormattedCurrencyRate(amount)
+            getFormattedExchangeRate(amount)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        // todo add to compositeDIsposables
-        mCurrenciesListDisposable?.dispose()
     }
 
     fun getCurrencyData(): MutableLiveData<List<Currency>> {
@@ -74,22 +60,10 @@ class CurrencyViewModel : BaseViewModel() {
         return currencyData as MediatorLiveData<List<Currency>>
     }
 
-    @SuppressLint("DefaultLocale")
-    fun getCountryFlagIconUrl(currency: Currency): String? {
-
-        var countryCode = currency.abbreviation?.substring(0, 2)?.toLowerCase()
-        if (countryCode == "eu"){
-            countryCode = "european_union"
-        }
-        return "https://hatscripts.github.io/circle-flags/flags/$countryCode.svg"
-    }
-
     /**************************************************
      * Private functions
      **************************************************/
 
-    private var mCurrenciesListDisposable: Disposable? = null
-    private var currencyRatesDisposable: Disposable? = null
 
     private fun loadCurrencyData() {
 
@@ -101,60 +75,33 @@ class CurrencyViewModel : BaseViewModel() {
                             currencyData?.value = currencies
                         },
                         { error ->
+                            // TODO
                             Log.e(TAG, "TODO Handle error!")
                         }
                 )
+                .also { disposables.add(it) }
 
         currencyRatesDisposable = currencyRepository.getCurrencyRatesRx(baseCurrencyAbbreviation)
                 .subscribe({
 
-                    currencyRates.postValue(it) },
+                    currencyRates.postValue(it)
+                },
                         { error ->
                             // something went wrong
                             // TODO
                             Log.e(TAG, "TODO Handle error! Error:$error")
 
                         })
-
-
-//        currencyRepository.getCurrencyRates(baseCurrency).observeForever {
-//            currencyData?.value = it
-
-
-//                result?.let {
-//
-//                    Logging.logError(TAG, "loadAudioTracks: bookmark / result state = " + it.status)
-//                    isLoading.value = it.status == LOADING
-//                    if (it.status == SUCCESS) {
-//
-//                        Logging.logError(TAG, "loadAudioTracks: size pre filter: " + it.data?.size)
-//
-//                        val audioTracks = AudioRepository.getFilteredAudioTracks(getCurrentAudioTrackFilter())
-//
-//                        Logging.logError(TAG, "loadAudioTracks: size post filter: " + audioTracks?.size)
-//                        this.audioTracks?.postValue(audioTracks)
-//                        hasErrorLoadingData.value = false
-//                    }
-//
-//                    if (it.status == ERROR) {
-//                        onErrorGetAudioTracks(it.message, it.errorCode)
-//                    }
-//                }
-//        }
-
-//        currencyRepository.getCurrencyNames().observeForever {
-//            currencyNames.value = it
-//        }
-
+                .also { disposables.add(it) }
     }
 
     /**
-     * Formats the currency rate:
+     * Formats the currency's exchange rate:
      * - to empty string if it's null
      * - to NO decimals if decimals value is zero
      * - to 2 decimals in other cases
      */
-    private fun getFormattedCurrencyRate(rate: Float?): String {
+    private fun getFormattedExchangeRate(rate: Float?): String {
 
         rate?.let {
             if (it.isDecimalValueZero()) return it.toInt().toString()

@@ -6,7 +6,6 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.currencies.converter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -31,8 +30,7 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
      *********************************/
 
     fun setData(data: List<Currency>) {
-        if (currencies.size > 0) return // todo remove
-        Log.e(TAG, "currency list size = " + data.size)
+        if (currencies.size > 0) return // todo remove after figuring out right pattern to update rates
 
         currencies.clear()
         currencies.addAll(data)

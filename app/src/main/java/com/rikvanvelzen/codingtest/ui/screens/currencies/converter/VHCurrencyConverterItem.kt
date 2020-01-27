@@ -27,7 +27,6 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
 
         binding.currencyItemContainer.setOnClickListener { function.invoke() }
 
-
         setupObservers(currency)
     }
 
@@ -37,17 +36,19 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
 
     private fun setupObservers(currency: Currency) {
 
-        Log.e(TAG, "adapterPosition=$adapterPosition layoutPosition=$layoutPosition")
-        if (this.layoutPosition == 0){
+        // TODO figure out right pattern
+        if (this.adapterPosition == 0) {
+            Log.e(TAG, "currency: ${currency.abbreviation} adapterPosition=$adapterPosition layoutPosition=$layoutPosition baseCurrencyAmount=" + viewModel.baseCurrencyAmount.toString())
             setExchangeRate(viewModel.baseCurrencyAmount.toString())
         } else {
             viewModel.getExchangeRate(currency).observe(lifecycleOwner, Observer {
-                setExchangeRate(it)
+                if (this.adapterPosition != 0) setExchangeRate(it)
+                Log.e(TAG, "currency: ${currency.abbreviation} adapterPosition=$adapterPosition layoutPosition=$layoutPosition currencyAmount=" + it)
             })
         }
     }
 
-    private fun setExchangeRate(rate: String){
+    private fun setExchangeRate(rate: String) {
         binding.currencyRate.setText(rate)
     }
 }

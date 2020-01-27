@@ -53,7 +53,7 @@ public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends Bas
 
     private void setupBaseViewModelObservers() {
 
-//        viewModel.shouldNavigateBack().observe(this, navigate -> onBackPressed());
+        viewModel.shouldNavigateBack().observe(this, navigate -> onBackPressed());
     }
 
     @SuppressWarnings("unchecked")

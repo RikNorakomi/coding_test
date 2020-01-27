@@ -8,6 +8,8 @@
             name="viewModel"
             type="com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel" />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <RelativeLayout
@@ -18,8 +20,8 @@
             android:id="@+id/fragment_currency_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="@{safeUnbox(viewModel.isLoading) ? View.INVISIBLE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        <!--            android:visibility="@{safeUnbox(viewModel.isLoading) ? View.INVISIBLE : View.VISIBLE}" />-->
 
         <ProgressBar
             android:id="@+id/loading_indicator"
@@ -27,10 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminate="true"
-            android:visibility="gone" />
-        <!--            android:visibility="@{safeUnbox(viewModel.isLoading) ? View.VISIBLE : View.GONE}" />-->
+            android:visibility="@{safeUnbox(viewModel.isLoading) ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
-
 
 </layout>

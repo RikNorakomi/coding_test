@@ -9,23 +9,36 @@ package com.rikvanvelzen.codingtest.ui.screens.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rikvanvelzen.codingtest.helpers.SingleLiveEvent
+import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
 
+    val TAG = javaClass.simpleName
 
     @JvmField
     val isLoading = MutableLiveData<Boolean>()
-//    val navigateBack = SingleLiveEvent<Any>()
+    val disposables: CompositeDisposable = CompositeDisposable()
 
-    /******************************************************
-     * Public methods
-     */
+    private val navigateBack = SingleLiveEvent<Any>()
 
-//    fun onBackButtonClicked() {
-//        navigateBack.call()
-//    }
-//
-//    fun shouldNavigateBack(): LiveData<Any> {
-//        return navigateBack
-//    }
+    /**************************************************
+     * Public functions
+     **************************************************/
+
+    fun onBackButtonClicked() {
+        navigateBack.call()
+    }
+
+    fun shouldNavigateBack(): LiveData<Any> {
+        return navigateBack
+    }
+    /**************************************************
+     * Liefcycle functions
+     **************************************************/
+
+    override fun onCleared() {
+        super.onCleared()
+        disposables.dispose()
+    }
 }
