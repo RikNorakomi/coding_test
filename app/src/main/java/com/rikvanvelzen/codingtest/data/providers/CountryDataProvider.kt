@@ -7,13 +7,14 @@
 package com.rikvanvelzen.codingtest.data.providers
 
 import android.annotation.SuppressLint
+import java.util.*
 
-class CountryFlagUrlProvider {
+class CountryDataProvider {
 
     companion object {
 
         @SuppressLint("DefaultLocale")
-        fun getCountryFlagIconUrl(currencyAbbreviation: String): String? {
+        fun getCountryFlagUrl(currencyAbbreviation: String): String? {
 
             if (currencyAbbreviation.length < 2) return null
 
@@ -23,6 +24,19 @@ class CountryFlagUrlProvider {
             }
 
             return "https://hatscripts.github.io/circle-flags/flags/$countryCode.svg"
+        }
+
+
+        fun getCountryCodeFromName(countryName: String?): String? {
+
+            val countries: MutableMap<String, String> = HashMap()
+
+            for (iso in Locale.getISOCountries()) {
+                val locale = Locale("", iso)
+                countries[locale.displayCountry] = iso
+            }
+
+            return countries[countryName]
         }
     }
 }

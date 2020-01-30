@@ -7,6 +7,7 @@
 package com.rikvanvelzen.codingtest
 
 import android.app.Application
+import android.content.Context
 import com.rikvanvelzen.codingtest.common.dependencyinjection.application.ApplicationComponent
 import com.rikvanvelzen.codingtest.common.dependencyinjection.application.ApplicationModule
 import com.rikvanvelzen.codingtest.common.dependencyinjection.application.DaggerApplicationComponent
@@ -16,11 +17,13 @@ class RevolutApplication : Application() {
     companion object {
 
         lateinit var applicationComponent: ApplicationComponent
+        lateinit var appContext: Context
     }
 
     override fun onCreate() {
         super.onCreate()
 
+        appContext = applicationContext
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .build()

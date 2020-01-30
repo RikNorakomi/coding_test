@@ -38,6 +38,18 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
         notifyDataSetChanged()
     }
 
+    fun swapItemToTop(itemPosition: Int){
+
+        // do nothing if item is already at top
+        if (itemPosition == 0) return
+
+        // move item to top and scroll to top in case top item was not visible
+        swap(currencies, itemPosition, 0)
+        recyclerView.smoothScrollToPosition(0)
+
+        notifyDataSetChanged()
+    }
+
     /*********************************
      * Override functions
      *********************************/
@@ -45,7 +57,8 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val viewHolder = (holder as VHCurrencyConverterItem)
-        viewHolder.bind(currencies[position]) { onItemClicked(position) }
+        viewHolder.bind(currencies[position])
+//        viewHolder.bind(currencies[position]) { onItemClicked(position) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

@@ -45,7 +45,7 @@ public class PresentationModule {
 //    CurrencyRepository getCurrencyRepository(CurrencyService currencyService) {
 //        return new CurrencyRepository(currencyService);
 //    }
-//
+
 //    @Provides
 //    DialogsManager getDialogsManager(FragmentManager fragmentManager) {
 //        return new DialogsManager(fragmentManager);

@@ -11,18 +11,17 @@ import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyNamesDTO
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyRatesDTO
-import com.rikvanvelzen.codingtest.data.providers.CountryFlagUrlProvider
+import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class CurrencyRepository(private val currencyService: CurrencyService) {
 
-    private val countryFlagUrlProvider by lazy { CountryFlagUrlProvider }
+    private val countryDataProvider by lazy { CountryDataProvider }
     private var currencyNamesCache: CurrencyNamesDTO? = null
 
     /**************************************************
@@ -66,13 +65,13 @@ class CurrencyRepository(private val currencyService: CurrencyService) {
         val currencies = ArrayList<Currency>()
 
         // add baseCurrency as first item
-        val name = namesResponse.names?.get(baseCurrencyAbbreviation)
+        val baseCurrencyName = namesResponse.names?.get(baseCurrencyAbbreviation)
         currencies.add(Currency(
                 baseCurrencyAbbreviation,
-                name,
-                getCountryCodeFromName(name),
-                1F,
-                countryFlagUrlProvider.getCountryFlagIconUrl(baseCurrencyAbbreviation)
+                baseCurrencyName,
+                countryDataProvider.getCountryCodeFromName(baseCurrencyName),
+                countryDataProvider.getCountryFlagUrl(baseCurrencyAbbreviation),
+                1F
         ))
 
         ratesResponse.rates?.forEach { (abbreviation, rate) ->
@@ -82,26 +81,15 @@ class CurrencyRepository(private val currencyService: CurrencyService) {
                     Currency(
                             abbreviation,
                             name,
-                            getCountryCodeFromName(name),
-                            rate,
-                            countryFlagUrlProvider.getCountryFlagIconUrl(abbreviation)
+                            countryDataProvider.getCountryCodeFromName(name),
+                            countryDataProvider.getCountryFlagUrl(abbreviation),
+                            rate
                     ))
         }
 
         return currencies
     }
 
-    private fun getCountryCodeFromName(countryName: String?): String? {
-
-        val countries: MutableMap<String, String> = HashMap()
-
-        for (iso in Locale.getISOCountries()) {
-            val locale = Locale("", iso)
-            countries[locale.displayCountry] = iso
-        }
-
-        return countries[countryName]
-    }
 
     private fun getCurrencyNamesObservable(): Observable<CurrencyNamesDTO> {
 
@@ -117,7 +105,7 @@ class CurrencyRepository(private val currencyService: CurrencyService) {
 
                     response
                 }
-                .subscribeOn(Schedulers.io()) // todo inject schedulers
+                .subscribeOn(Schedulers.io())
     }
 
 

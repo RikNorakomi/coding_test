@@ -13,6 +13,10 @@
             name="currency"
             type="com.rikvanvelzen.codingtest.data.models.domain.Currency" />
 
+        <variable
+            name="isFirstResponder"
+            type="Boolean" />
+
         <import type="android.view.View" />
 
         <!-- For design see:
@@ -71,8 +75,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:focusableInTouchMode="@{isFirstResponder ? true : false}"
             android:hint="0"
             android:inputType="numberDecimal"
+            bind:placeCursorAtEndOnFocus="@{true}"
             tools:ignore="HardcodedText"
             tools:text="2312.22" />
 

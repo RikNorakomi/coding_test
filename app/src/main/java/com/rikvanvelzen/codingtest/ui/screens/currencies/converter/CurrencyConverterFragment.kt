@@ -31,5 +31,6 @@ class CurrencyConverterFragment : MvvmBaseFragment<CurrencyConverterFragmentBind
         binding.fragmentCurrencyRecycler.adapter = adapter
 
         viewModel.getCurrencyData().observe(viewLifecycleOwner, Observer { adapter.setData(it) })
+        viewModel.itemPositionToMoveToTop.observe(viewLifecycleOwner, Observer { adapter.swapItemToTop(it) })
     }
 }

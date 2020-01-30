@@ -1,4 +1,10 @@
-package com.rikvanvelzen.codingtest.ui.components;
+/*
+ * Created by Rik van Velzen, Norakomi Software Development.
+ * Copyright (c) 2020. All rights reserved
+ * Last modified 1/30/20 2:24 PM
+ */
+
+package com.rikvanvelzen.codingtest.ui.components.bindingadapters;
 
 import android.widget.ImageView;
 

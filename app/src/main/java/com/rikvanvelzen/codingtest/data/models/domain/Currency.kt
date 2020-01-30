@@ -5,7 +5,7 @@ data class Currency(
         val abbreviation: String? = null,
         val name: String? = null,
         val countryCode: String? = null,
+        val flagIconUrl: String? = null,
 
-        val rate: Float? = null,
-        val flagIconUrl: String? = null
+        val rate: Float? = null
 )
