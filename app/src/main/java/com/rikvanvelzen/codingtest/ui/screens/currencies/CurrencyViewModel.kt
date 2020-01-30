@@ -18,10 +18,16 @@ import com.rikvanvelzen.codingtest.kotlin.extensionfunctions.formatToTwoDecimals
 import com.rikvanvelzen.codingtest.kotlin.extensionfunctions.isDecimalValueZero
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class CurrencyViewModel : BaseViewModel() {
 
-    private val currencyRepository = CurrencyRepository
+    init {
+        getPresentationComponent().inject(this)
+    }
+
+    @Inject lateinit var currencyRepository: CurrencyRepository
+
     private var currencyData: MediatorLiveData<List<Currency>>? = null
     private var baseCurrencyAbbreviation = "EUR"
     var baseCurrencyAmount: Float = 100F
@@ -31,6 +37,9 @@ class CurrencyViewModel : BaseViewModel() {
     private var currencyRatesDisposable: Disposable? = null // todo move to basevm
 
     private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
+
+
+
 
     /**************************************************
      * Public functions

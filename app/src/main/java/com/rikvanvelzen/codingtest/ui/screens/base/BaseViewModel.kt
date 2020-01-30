@@ -6,9 +6,14 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.base
 
+import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rikvanvelzen.codingtest.RevolutApplication
+import com.rikvanvelzen.codingtest.common.dependencyinjection.application.ApplicationComponent
+import com.rikvanvelzen.codingtest.common.dependencyinjection.presentation.PresentationComponent
+import com.rikvanvelzen.codingtest.common.dependencyinjection.presentation.PresentationModule
 import com.rikvanvelzen.codingtest.helpers.SingleLiveEvent
 import io.reactivex.disposables.CompositeDisposable
 
@@ -22,6 +27,21 @@ open class BaseViewModel : ViewModel() {
 
     private val navigateBack = SingleLiveEvent<Any>()
 
+    private var mIsInjectorUsed = false
+
+    @UiThread
+    protected open fun getPresentationComponent(): PresentationComponent {
+        if (mIsInjectorUsed) {
+            throw RuntimeException("there is no need to use injector more than once")
+        }
+        mIsInjectorUsed = true
+        return getApplicationComponent().newPresentationComponent(PresentationModule())
+    }
+
+    private fun getApplicationComponent(): ApplicationComponent {
+        return RevolutApplication.applicationComponent
+    }
+
     /**************************************************
      * Public functions
      **************************************************/
@@ -33,6 +53,7 @@ open class BaseViewModel : ViewModel() {
     fun shouldNavigateBack(): LiveData<Any> {
         return navigateBack
     }
+
     /**************************************************
      * Liefcycle functions
      **************************************************/

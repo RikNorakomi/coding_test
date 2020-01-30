@@ -7,6 +7,7 @@
 package com.rikvanvelzen.codingtest.data.repositories
 
 import com.rikvanvelzen.codingtest.data.RetrofitManager
+import com.rikvanvelzen.codingtest.data.api.CurrencyService
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyNamesDTO
@@ -21,9 +22,9 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
-object CurrencyRepository {
+class CurrencyRepository(private val currencyService: CurrencyService) {
 
-    private val currencyService by lazy { RetrofitManager.getCurrencyService() }
+//    private val currencyService by lazy { RetrofitManager.getCurrencyService() }
     private val countryFlagUrlProvider by lazy { CountryFlagUrlProvider }
     private var currencyNamesCache: CurrencyNamesDTO? = null
 
