@@ -1,4 +1,10 @@
-package com.rikvanvelzen.codingtest.kotlin.extensionfunctions
+/*
+ * Created by Rik van Velzen, Norakomi Software Development.
+ * Copyright (c) 2020. All rights reserved
+ * Last modified 1/25/20 1:58 PM
+ */
+
+package com.rikvanvelzen.codingtest.common.kotlin
 
 import android.content.Context
 import android.view.Gravity

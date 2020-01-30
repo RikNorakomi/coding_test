@@ -14,8 +14,8 @@ import androidx.lifecycle.Transformations
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
-import com.rikvanvelzen.codingtest.kotlin.extensionfunctions.formatToTwoDecimals
-import com.rikvanvelzen.codingtest.kotlin.extensionfunctions.isDecimalValueZero
+import com.rikvanvelzen.codingtest.common.kotlin.formatToTwoDecimals
+import com.rikvanvelzen.codingtest.common.kotlin.isDecimalValueZero
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -37,9 +37,6 @@ class CurrencyViewModel : BaseViewModel() {
     private var currencyRatesDisposable: Disposable? = null // todo move to basevm
 
     private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
-
-
-
 
     /**************************************************
      * Public functions

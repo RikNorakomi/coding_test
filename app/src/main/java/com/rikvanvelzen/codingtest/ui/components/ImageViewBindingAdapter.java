@@ -1,16 +1,13 @@
 package com.rikvanvelzen.codingtest.ui.components;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.rikvanvelzen.codingtest.R;
-import com.rikvanvelzen.codingtest.helpers.GlideApp;
+import com.rikvanvelzen.codingtest.common.GlideApp;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 

@@ -6,6 +6,7 @@
 
 package com.rikvanvelzen.codingtest.kotlin.extensionfunctions
 
+import com.rikvanvelzen.codingtest.common.kotlin.isDecimalValueZero
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
 import org.junit.Before

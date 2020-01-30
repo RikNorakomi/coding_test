@@ -6,7 +6,6 @@
 
 package com.rikvanvelzen.codingtest.data.repositories
 
-import com.rikvanvelzen.codingtest.data.RetrofitManager
 import com.rikvanvelzen.codingtest.data.api.CurrencyService
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
@@ -15,7 +14,6 @@ import com.rikvanvelzen.codingtest.data.models.dto.CurrencyRatesDTO
 import com.rikvanvelzen.codingtest.data.providers.CountryFlagUrlProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -24,7 +22,6 @@ import kotlin.collections.ArrayList
 
 class CurrencyRepository(private val currencyService: CurrencyService) {
 
-//    private val currencyService by lazy { RetrofitManager.getCurrencyService() }
     private val countryFlagUrlProvider by lazy { CountryFlagUrlProvider }
     private var currencyNamesCache: CurrencyNamesDTO? = null
 

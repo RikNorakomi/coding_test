@@ -1,4 +1,10 @@
-package com.rikvanvelzen.codingtest.helpers;
+/*
+ * Created by Rik van Velzen, Norakomi Software Development.
+ * Copyright (c) 2020. All rights reserved
+ * Last modified 1/27/20 9:19 AM
+ */
+
+package com.rikvanvelzen.codingtest.common;
 
 
 import android.util.Log;
