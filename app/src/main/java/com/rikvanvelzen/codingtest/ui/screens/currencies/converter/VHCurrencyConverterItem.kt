@@ -6,6 +6,8 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.currencies.converter
 
+import android.util.Log
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.rikvanvelzen.codingtest.common.kotlin.formatToTwoDecimals
@@ -16,40 +18,48 @@ import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 
 
+
+
 class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
                               private val viewModel: CurrencyViewModel,
                               private val lifecycleOwner: LifecycleOwner) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
     private val TAG = javaClass.simpleName
 
+    private val TEXT_WATCHER_ALREADY_SET_TAG = "text watcher set!"
     private var exchangeRate: Float = 0F
+    private lateinit var currency: Currency
 
-    fun bind(currency: Currency) {
-//    fun bind(currency: Currency, function: () -> Unit) {
+    /**************************************************
+     * Public functions
+     **************************************************/
 
-        binding.viewModel = viewModel
+    //    fun bind(currency: Currency) {
+    fun bind(currency: Currency, function: () -> Unit) {
+        this.currency = currency
+
         binding.lifecycleOwner = lifecycleOwner
         binding.currency = currency
         binding.isFirstResponder = adapterPosition == 0
-
-        binding.currencyRate.setOnClickListener {
-            viewModel.onCurrencyItemClicked(currency, adapterPosition, exchangeRate)
-        }
-
+        binding.currencyRate.setOnClickListener { viewModel.onCurrencyItemClicked(currency, adapterPosition, exchangeRate) }
         binding.currencyItemContainer.setOnClickListener {
-            viewModel.onCurrencyItemClicked(currency, adapterPosition, exchangeRate)
 
+            viewModel.onCurrencyItemClicked(currency, adapterPosition, exchangeRate)
             binding.currencyRate.apply {
 
                 isFocusableInTouchMode = true
                 requestFocus()
                 showKeyboard()
             }
+        }
 
-
+        // First responder currency amount is not calculated but taken and stored in property
+        if (adapterPosition == 0) {
+            setExchangeRate(getFormattedExchangeRate(viewModel.baseCurrencyAmountLD.value))
         }
 
         setupObservers(currency)
+        setupTextChangeListener()
     }
 
     /**************************************************
@@ -58,21 +68,32 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
 
     private fun setupObservers(currency: Currency) {
 
-        // TODO figure out right pattern
-        if (this.adapterPosition == 0) {
-            setExchangeRate(getFormattedExchangeRate(viewModel.baseCurrencyAmount))
-        } else {
-            viewModel.getExchangeRate(currency).observe(lifecycleOwner, Observer { rate ->
-                if (this.adapterPosition != 0) {
-                    rate?.let { exchangeRate = it }
-                    setExchangeRate(getFormattedExchangeRate(rate))
-                }
-            })
-        }
+        viewModel.getExchangeRate(currency).observe(lifecycleOwner, Observer { rate ->
+
+            if (this.adapterPosition != 0) {
+                rate?.let { exchangeRate = it }
+                setExchangeRate(getFormattedExchangeRate(rate))
+            }
+        })
     }
 
     private fun setExchangeRate(rate: String) {
         binding.currencyRate.setText(rate)
+    }
+
+    private fun setupTextChangeListener() {
+
+        // Make sure only 1 textChangeListener gets registered
+        if (binding.currencyRate.tag == TEXT_WATCHER_ALREADY_SET_TAG) return
+
+        binding.currencyRate.tag = TEXT_WATCHER_ALREADY_SET_TAG
+        binding.currencyRate.doAfterTextChanged {
+            // only inform viewModel of changes to first responder currency amount
+            if (adapterPosition == 0) {
+                Log.e(TAG, "currency changed to: $it for currency:${currency.abbreviation}")
+                viewModel.onBaseCurrencyAmountChanged(it.toString())
+            }
+        }
     }
 
     /**

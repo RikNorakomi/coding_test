@@ -11,7 +11,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.rikvanvelzen.codingtest.common.MultipleLiveDataTransformation
 import com.rikvanvelzen.codingtest.common.SingleLiveEvent
+import com.rikvanvelzen.codingtest.common.kotlin.default
 import com.rikvanvelzen.codingtest.common.kotlin.toFloat
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
@@ -32,8 +34,8 @@ class CurrencyViewModel : BaseViewModel() {
 
     private var currencyData: MediatorLiveData<List<Currency>>? = null
     private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
-    //    var baseCurrencyAmountLD = MutableLiveData<Float>().default(100F)
-    var baseCurrencyAmount: Float? = 100F
+        var baseCurrencyAmountLD = MutableLiveData<Float>().default(100F)
+//    var baseCurrencyAmount: Float? = 100F
     private var currencyRatesDisposable: Disposable? = null
     private var baseCurrencyAbbreviation = "EUR"
 
@@ -47,29 +49,29 @@ class CurrencyViewModel : BaseViewModel() {
     fun getTabLayoutItems(): Array<CurrencyTabItems> = CurrencyTabItems.values()
 
     fun getExchangeRate(currency: Currency): LiveData<Float?> {
-//        return MultipleLiveDataTransformation.biMapNullSafe(currencyRates, baseCurrencyAmountLD
-//        ) { ratesMap, baseCurrencyAmount ->
-//            var amount: Float? = null
-//
-//            ratesMap.rates[currency.abbreviation]?.let { rate ->
-//                amount = rate * baseCurrencyAmount
-//            }
-//            amount
-//        }
-
-        return Transformations.map(currencyRates) { currencyRates ->
-
-
+        return MultipleLiveDataTransformation.biMapNullSafe(currencyRates, baseCurrencyAmountLD
+        ) { ratesMap, baseCurrencyAmount ->
             var amount: Float? = null
 
-            baseCurrencyAmount?.let {
-
-                currencyRates.rates[currency.abbreviation]?.let { rate ->
-                    amount = rate * baseCurrencyAmount!!
-                }
+            ratesMap.rates[currency.abbreviation]?.let { rate ->
+                amount = rate * baseCurrencyAmount
             }
             amount
         }
+//
+//        return Transformations.map(currencyRates) { currencyRates ->
+//
+//
+//            var amount: Float? = null
+//
+//            baseCurrencyAmount?.let {baseCurrencyAmount ->
+//
+//                currencyRates.rates[currency.abbreviation]?.let { rate ->
+//                    amount = rate * baseCurrencyAmount
+//                }
+//            }
+//            amount
+//        }
     }
 
 
@@ -84,11 +86,11 @@ class CurrencyViewModel : BaseViewModel() {
         return currencyData as MediatorLiveData<List<Currency>>
     }
 
-    fun onBaseCurrencyAmountChanged(amount: CharSequence, start: Int, before: Int, count: Int) {
-//        baseCurrencyAmountLD.value = amount.toString().toFloatOrNull()
-//        baseCurrencyAmount = amount.toString().toFloat()
+    fun onBaseCurrencyAmountChanged(amount: String?) {
+        baseCurrencyAmountLD.value = amount?.toFloatOrNull()
+//        baseCurrencyAmount = amount?.toFloatOrNull()
 
-        Log.e(TAG, "amount= $amount")
+//        Log.e(TAG, "amount= $amount")
     }
 
     fun onCurrencyItemClicked(currency: Currency, adapterPosition: Int, exchangeRate: Float) {
@@ -99,7 +101,8 @@ class CurrencyViewModel : BaseViewModel() {
 
             currency.abbreviation?.let {
                 baseCurrencyAbbreviation = it
-                baseCurrencyAmount = exchangeRate
+//                baseCurrencyAmount = exchangeRate
+                baseCurrencyAmountLD.value = exchangeRate
             }
 
             itemPositionToMoveToTop.postValue(adapterPosition)

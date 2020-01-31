@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel" />
-
-        <variable
             name="currency"
             type="com.rikvanvelzen.codingtest.data.models.domain.Currency" />
 

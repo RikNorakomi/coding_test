@@ -57,8 +57,8 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val viewHolder = (holder as VHCurrencyConverterItem)
-        viewHolder.bind(currencies[position])
-//        viewHolder.bind(currencies[position]) { onItemClicked(position) }
+//        viewHolder.bind(currencies[position])
+        viewHolder.bind(currencies[position]) { onItemClicked(position) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
