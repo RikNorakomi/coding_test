@@ -18,5 +18,4 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     public PresentationComponent newPresentationComponent(PresentationModule presentationModule);
-//    public ServiceComponent newServiceComponent(ServiceModule serviceModule);
 }

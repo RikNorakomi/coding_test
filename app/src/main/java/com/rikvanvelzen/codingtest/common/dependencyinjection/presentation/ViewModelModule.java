@@ -9,8 +9,8 @@ package com.rikvanvelzen.codingtest.common.dependencyinjection.presentation;
 
 import androidx.lifecycle.ViewModel;
 
-
 import com.rikvanvelzen.codingtest.common.dependencyinjection.viewmodel.ViewModelFactory;
+import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -40,17 +40,11 @@ public class ViewModelModule {
         return new ViewModelFactory(providerMap);
     }
 
-//    @Provides
-//    @IntoMap
-//    @ViewModelKey(QuestionDetailsViewModel.class)
-//    ViewModel questionDetailsViewModel(FetchQuestionDetailsUseCase fetchQuestionDetailsUseCase) {
-//        return new QuestionDetailsViewModel(fetchQuestionDetailsUseCase);
-//    }
-//
-//    @Provides
-//    @IntoMap
-//    @ViewModelKey(QuestionsListViewModel.class)
-//    ViewModel questionsListViewModel() {
-//        return new QuestionsListViewModel();
-//    }
+    @Provides
+    @IntoMap
+    @ViewModelKey(CurrencyViewModel.class)
+    ViewModel currencyViewModel() {
+        return new CurrencyViewModel();
+    }
+
 }

@@ -6,7 +6,6 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.currencies.converter
 
-import android.util.Log
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -15,13 +14,21 @@ import com.rikvanvelzen.codingtest.common.kotlin.isDecimalValueZero
 import com.rikvanvelzen.codingtest.common.kotlin.showKeyboard
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
+import com.rikvanvelzen.codingtest.ui.screens.currencies.BaseViewHolder
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
+import com.rikvanvelzen.codingtest.ui.utils.StringFormatUtil
+import javax.inject.Inject
 
 class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
                               private val viewModel: CurrencyViewModel,
-                              private val lifecycleOwner: LifecycleOwner) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+                              private val lifecycleOwner: LifecycleOwner) : BaseViewHolder(binding.root) {
 
-    private val TAG = javaClass.simpleName
+    init {
+        getPresentationComponent().inject(this)
+    }
+
+    @Inject
+    lateinit var stringFormatUtil: StringFormatUtil
 
     private val TEXT_WATCHER_ALREADY_SET_TAG = "text watcher set!"
     private var exchangeRate: Float = 0F
@@ -31,7 +38,6 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
      * Public functions
      **************************************************/
 
-    //    fun bind(currency: Currency) {
     fun bind(currency: Currency) {
         this.currency = currency
 
@@ -52,7 +58,7 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
 
         // First responder currency amount is not calculated but taken and stored in property
         if (adapterPosition == 0) {
-            setExchangeRate(getFormattedExchangeRate(viewModel.baseCurrencyAmountLD.value))
+            setExchangeRate(stringFormatUtil.getFormattedExchangeRate(viewModel.baseCurrencyAmountLD.value))
         }
 
         setupObservers(currency)
@@ -69,7 +75,7 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
 
             if (this.adapterPosition != 0) {
                 rate?.let { exchangeRate = it }
-                setExchangeRate(getFormattedExchangeRate(rate))
+                setExchangeRate(stringFormatUtil.getFormattedExchangeRate(rate))
             }
         })
     }
@@ -93,20 +99,4 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
         }
     }
 
-    /**
-     * Formats the currency's exchange rate:
-     * - to empty string if it's null
-     * - to NO decimals if decimals value is zero
-     * - to 2 decimals in other cases
-     */
-    private fun getFormattedExchangeRate(rate: Float?): String { // todo move out of vh
-
-        rate?.let {
-            if (it.isDecimalValueZero()) return it.toInt().toString()
-
-            return rate.formatToTwoDecimals()
-        }
-
-        return ""
-    }
 }

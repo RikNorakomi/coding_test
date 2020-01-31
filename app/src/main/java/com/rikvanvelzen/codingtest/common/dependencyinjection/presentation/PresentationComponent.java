@@ -9,6 +9,7 @@ package com.rikvanvelzen.codingtest.common.dependencyinjection.presentation;
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyActivity;
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel;
 import com.rikvanvelzen.codingtest.ui.screens.currencies.converter.CurrencyConverterFragment;
+import com.rikvanvelzen.codingtest.ui.screens.currencies.converter.VHCurrencyConverterItem;
 
 import dagger.Subcomponent;
 
@@ -16,6 +17,10 @@ import dagger.Subcomponent;
 public interface PresentationComponent {
 
     void inject(CurrencyActivity currencyActivity);
+
     void inject(CurrencyConverterFragment currencyConverterFragment);
+
     void inject(CurrencyViewModel currencyViewModel);
+
+    void inject(VHCurrencyConverterItem currencyConverterViewHolder);
 }

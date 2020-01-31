@@ -15,7 +15,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.rikvanvelzen.codingtest.common.dependencyinjection.viewmodel.ViewModelFactory;
+
 import java.lang.reflect.ParameterizedType;
+
+import javax.inject.Inject;
 
 public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
 
@@ -23,6 +27,9 @@ public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends Bas
 
     protected B binding;
     protected VM viewModel;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
 
     /******************************************************
      * Abstract methods
@@ -40,7 +47,8 @@ public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends Bas
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, getLayoutResource());
-        viewModel = ViewModelProviders.of(this).get(getViewModelClass());
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModelClass());
+
         binding.setVariable(com.rikvanvelzen.codingtest.BR.viewModel, viewModel);
         binding.setLifecycleOwner(this);
 

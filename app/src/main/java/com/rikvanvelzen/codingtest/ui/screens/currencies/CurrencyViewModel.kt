@@ -8,7 +8,6 @@ package com.rikvanvelzen.codingtest.ui.screens.currencies
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.rikvanvelzen.codingtest.common.MultipleLiveDataTransformation
 import com.rikvanvelzen.codingtest.common.SingleLiveEvent
