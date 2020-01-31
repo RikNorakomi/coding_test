@@ -17,9 +17,6 @@ import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 
-
-
-
 class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
                               private val viewModel: CurrencyViewModel,
                               private val lifecycleOwner: LifecycleOwner) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
@@ -88,9 +85,9 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
 
         binding.currencyRate.tag = TEXT_WATCHER_ALREADY_SET_TAG
         binding.currencyRate.doAfterTextChanged {
+
             // only inform viewModel of changes to first responder currency amount
             if (adapterPosition == 0) {
-                Log.e(TAG, "currency changed to: $it for currency:${currency.abbreviation}")
                 viewModel.onBaseCurrencyAmountChanged(it.toString())
             }
         }

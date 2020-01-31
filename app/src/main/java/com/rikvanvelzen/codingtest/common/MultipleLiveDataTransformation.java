@@ -6,13 +6,11 @@
 
 package com.rikvanvelzen.codingtest.common;
 
-
 import androidx.annotation.MainThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import java9.util.function.BiFunction;
-
 
 /**
  * allows Transformation functionality for sets of LiveData
