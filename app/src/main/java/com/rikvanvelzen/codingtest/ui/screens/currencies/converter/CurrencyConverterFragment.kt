@@ -30,6 +30,18 @@ class CurrencyConverterFragment : MvvmBaseFragment<CurrencyConverterFragmentBind
         adapter = CurrencyConverterAdapter(viewModel, this)
         binding.fragmentCurrencyRecycler.adapter = adapter
 
+        setupObservers()
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        viewModel?.onConverterScreenVisibilityChanged(isVisibleToUser)
+    }
+    /**************************************************
+     * Private functions
+     **************************************************/
+
+    private fun setupObservers() {
+
         viewModel.getCurrencyData().observe(viewLifecycleOwner, Observer { adapter.setData(it) })
         viewModel.itemPositionToMoveToTop.observe(viewLifecycleOwner, Observer { adapter.swapItemToTop(it) })
     }

@@ -17,7 +17,9 @@ import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -30,13 +32,11 @@ class CurrencyViewModel : BaseViewModel() {
     @Inject
     lateinit var currencyRepository: CurrencyRepository
 
-    private var currencyData: MediatorLiveData<List<Currency>>? = null
+    private var currencyData: SingleLiveEvent<List<Currency>>? = null
     private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
-    //    var baseCurrencyAmount: Float? = 100F
     private var currencyRatesDisposable: Disposable? = null
     private var baseCurrencyAbbreviation = "EUR"
 
-    //    var baseCurrencyAmount: Float = 100F
     var itemPositionToMoveToTop = SingleLiveEvent<Int>()
     var baseCurrencyAmountLD = MutableLiveData<Float>().default(100F)
         private set
@@ -65,15 +65,15 @@ class CurrencyViewModel : BaseViewModel() {
         }
     }
 
-    fun getCurrencyData(): MutableLiveData<List<Currency>> {
+    fun getCurrencyData(): SingleLiveEvent<List<Currency>> {
 
         if (currencyData == null) {
-            currencyData = MediatorLiveData()
+            currencyData = SingleLiveEvent()
             loadCurrencyData()
             loadCurrencyRates()
         }
 
-        return currencyData as MediatorLiveData<List<Currency>>
+        return currencyData as SingleLiveEvent<List<Currency>>
     }
 
     fun onBaseCurrencyAmountChanged(amount: String?) {
@@ -86,13 +86,24 @@ class CurrencyViewModel : BaseViewModel() {
 
             currency.abbreviation?.let {
                 baseCurrencyAbbreviation = it
-//                baseCurrencyAmount = exchangeRate
                 baseCurrencyAmountLD.value = exchangeRate
             }
 
             itemPositionToMoveToTop.postValue(adapterPosition)
 
             loadCurrencyRates()
+        }
+    }
+
+    /**
+     * This function takes care of only polling api for currency rates when converter screen is visible
+     */
+    fun onConverterScreenVisibilityChanged(visibleToUser: Boolean) {
+
+        if (visibleToUser) {
+            loadCurrencyRates()
+        } else {
+            currencyRatesDisposable?.let { disposables.remove(it) }
         }
     }
 
@@ -120,9 +131,9 @@ class CurrencyViewModel : BaseViewModel() {
     private fun loadCurrencyRates() {
 
         currencyRatesDisposable?.let { disposables.remove(it) }
-        currencyRatesDisposable = currencyRepository.getCurrencyRatesRx(baseCurrencyAbbreviation)
+        currencyRatesDisposable = Observable.interval(0, 1, TimeUnit.SECONDS)
+                .flatMap { currencyRepository.getCurrencyRatesRx(baseCurrencyAbbreviation) }
                 .subscribe({
-
                     currencyRates.postValue(it)
                 },
                         { error ->

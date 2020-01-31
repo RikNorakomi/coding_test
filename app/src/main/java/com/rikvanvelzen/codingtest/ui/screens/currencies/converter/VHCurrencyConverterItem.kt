@@ -32,7 +32,7 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
      **************************************************/
 
     //    fun bind(currency: Currency) {
-    fun bind(currency: Currency, function: () -> Unit) {
+    fun bind(currency: Currency) {
         this.currency = currency
 
         binding.lifecycleOwner = lifecycleOwner

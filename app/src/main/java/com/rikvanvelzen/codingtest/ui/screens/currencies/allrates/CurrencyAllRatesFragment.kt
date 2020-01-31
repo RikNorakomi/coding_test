@@ -18,5 +18,4 @@ import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 class CurrencyAllRatesFragment : MvvmBaseFragment<FragmentCurrencyRatesBinding, CurrencyViewModel>() {
 
     override fun getLayoutResource(): Int = R.layout.fragment_currency_rates
-
 }

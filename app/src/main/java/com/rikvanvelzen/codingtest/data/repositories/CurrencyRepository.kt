@@ -17,7 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 class CurrencyRepository(private val currencyService: CurrencyService) {
 
@@ -29,9 +28,7 @@ class CurrencyRepository(private val currencyService: CurrencyService) {
      **************************************************/
 
     fun getCurrencyRatesRx(baseCurrencyAbbreviation: String): Observable<CurrencyRates> {
-
-        return Observable.interval(0, 1, TimeUnit.SECONDS)
-                .flatMap { currencyService.getCurrencyRatesRx(baseCurrencyAbbreviation) }
+        return currencyService.getCurrencyRatesRx(baseCurrencyAbbreviation)
                 .map {
                     CurrencyRates(it.rates ?: emptyMap(), baseCurrencyAbbreviation)
                 }

@@ -18,9 +18,8 @@ import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 import java.util.*
 import java.util.Collections.swap
 
-class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private val TAG = javaClass.simpleName
+class CurrencyConverterAdapter(var viewModel: CurrencyViewModel,
+                               private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
     private var currencies: ArrayList<Currency> = ArrayList()
@@ -57,8 +56,7 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val viewHolder = (holder as VHCurrencyConverterItem)
-//        viewHolder.bind(currencies[position])
-        viewHolder.bind(currencies[position]) { onItemClicked(position) }
+        viewHolder.bind(currencies[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -75,21 +73,5 @@ class CurrencyConverterAdapter(var viewModel: CurrencyViewModel, private val lif
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         this.recyclerView = recyclerView
-    }
-
-    /**************************************************
-     * Private functions
-     **************************************************/
-
-    private fun onItemClicked(itemPosition: Int) {
-
-        // do nothing if item is already at top
-        if (itemPosition == 0) return
-
-        // move item to top and scroll to top in case top item was not visible
-        swap(currencies, itemPosition, 0)
-        recyclerView.smoothScrollToPosition(0)
-
-        notifyDataSetChanged()
     }
 }
