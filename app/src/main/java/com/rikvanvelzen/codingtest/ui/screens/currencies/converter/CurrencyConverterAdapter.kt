@@ -18,7 +18,7 @@ import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 import java.util.*
 import java.util.Collections.swap
 
-class CurrencyConverterAdapter(var viewModel: CurrencyViewModel,
+class CurrencyConverterAdapter(private var viewModel: CurrencyViewModel,
                                private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView

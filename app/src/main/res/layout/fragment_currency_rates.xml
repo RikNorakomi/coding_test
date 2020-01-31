@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Not implemented for coding test\n\nBut polling of the currency rates will stop when you are on this screen ;)"/>
+            android:text="Not implemented for coding test\n\nBut polling of the api for currency rates will stop when you are on this screen ;)"/>
 
     </RelativeLayout>
 
