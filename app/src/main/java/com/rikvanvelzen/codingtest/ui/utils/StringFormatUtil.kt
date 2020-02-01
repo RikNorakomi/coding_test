@@ -5,6 +5,7 @@
  */
 package com.rikvanvelzen.codingtest.ui.utils
 
+import java.math.BigDecimal
 import java.text.DecimalFormat
 
 class StringFormatUtil {
@@ -17,7 +18,7 @@ class StringFormatUtil {
      * - to NO decimals if decimals value is zero
      * - to 2 decimals in other cases
      */
-    fun getFormattedExchangeRate(rate: Double?): String {
+    fun getFormattedExchangeRate(rate: BigDecimal?): String {
 
         rate?.let {
             if (it.isDecimalValueZero()) return it.toInt().toString()
@@ -32,14 +33,14 @@ class StringFormatUtil {
      * Private functions
      **************************************************/
 
-    private fun Double.formatToTwoDecimals(): String {
+    private fun BigDecimal.formatToTwoDecimals(): String {
 
         return formatter.format(this)
     }
 
-    private fun Double.isDecimalValueZero(): Boolean {
+    private fun BigDecimal.isDecimalValueZero(): Boolean {
         val integer = this.toInt()
-        val decimal = this - integer.toDouble()
-        return decimal == 0.toDouble()
+        val decimal = this - integer.toBigDecimal()
+        return decimal == 0.toBigDecimal()
     }
 }

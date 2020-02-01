@@ -1,5 +1,7 @@
 package com.rikvanvelzen.codingtest.data.models.domain
 
+import java.math.BigDecimal
+
 data class CurrencyRates (
 
         /**
@@ -9,6 +11,6 @@ data class CurrencyRates (
          * "BGN": 1.9564,
          * etc.
          */
-        val rates: Map<String, Double>,
+        val rates: Map<String, BigDecimal>,
         val base: String
 )

@@ -18,9 +18,9 @@ import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
 
 class CurrencyViewModel : BaseViewModel() {
 
@@ -37,7 +37,7 @@ class CurrencyViewModel : BaseViewModel() {
     private var baseCurrencyAbbreviation = "EUR"
 
     var itemPositionToMoveToTop = SingleLiveEvent<Int>()
-    var baseCurrencyAmountLD = MutableLiveData<Double>().default(100.toDouble())
+    var baseCurrencyAmountLD = MutableLiveData<BigDecimal>().default(100.toBigDecimal())
         private set
 
     /**************************************************
@@ -46,17 +46,17 @@ class CurrencyViewModel : BaseViewModel() {
 
     fun getTabLayoutItems(): Array<CurrencyTabItems> = CurrencyTabItems.values()
 
-    fun getExchangeRate(currency: Currency): LiveData<Double?> {
+    fun getExchangeRate(currency: Currency): LiveData<BigDecimal?> {
 
         return MultipleLiveDataTransformation.biMap(currencyRates, baseCurrencyAmountLD)
         { ratesMap, baseCurrencyAmount ->
 
-            var amount: Double? = null
+            var amount: BigDecimal? = null
 
             if (ratesMap != null && baseCurrencyAmount != null) {
 
                 ratesMap.rates[currency.abbreviation]?.let { rate ->
-                    amount = rate * baseCurrencyAmount
+                    amount = baseCurrencyAmount.multiply(rate)
                 }
             }
 
@@ -76,10 +76,10 @@ class CurrencyViewModel : BaseViewModel() {
     }
 
     fun onBaseCurrencyAmountChanged(amount: String?) {
-        baseCurrencyAmountLD.value = amount?.toDoubleOrNull()
+        baseCurrencyAmountLD.value = amount?.toBigDecimalOrNull()
     }
 
-    fun onCurrencyItemClicked(currency: Currency, adapterPosition: Int, exchangeRate: Double) {
+    fun onCurrencyItemClicked(currency: Currency, adapterPosition: Int, exchangeRate: BigDecimal) {
 
         if (adapterPosition != 0) {
 

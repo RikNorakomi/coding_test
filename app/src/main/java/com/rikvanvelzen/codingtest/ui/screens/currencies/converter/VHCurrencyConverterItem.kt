@@ -15,6 +15,7 @@ import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
 import com.rikvanvelzen.codingtest.ui.screens.currencies.BaseViewHolder
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 import com.rikvanvelzen.codingtest.ui.utils.StringFormatUtil
+import java.math.BigDecimal
 import javax.inject.Inject
 
 class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
@@ -29,7 +30,7 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
     lateinit var stringFormatUtil: StringFormatUtil
 
     private val TEXT_WATCHER_ALREADY_SET_TAG = "text watcher set!"
-    private var exchangeRate: Double = 0.toDouble()
+    private var exchangeRate: BigDecimal = 0.toBigDecimal()
     private lateinit var currency: Currency
 
     /**************************************************

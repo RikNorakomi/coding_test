@@ -1,5 +1,7 @@
 package com.rikvanvelzen.codingtest.data.models.domain
 
+import java.math.BigDecimal
+
 data class Currency(
 
         val abbreviation: String? = null,
@@ -7,5 +9,5 @@ data class Currency(
         val countryCode: String? = null,
         val flagIconUrl: String? = null,
 
-        val rate: Double? = null
+        val rate: BigDecimal? = null
 )

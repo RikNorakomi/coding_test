@@ -68,7 +68,7 @@ class CurrencyRepository(private val currencyService: CurrencyService) {
                 baseCurrencyName,
                 countryDataProvider.getCountryCodeFromName(baseCurrencyName),
                 countryDataProvider.getCountryFlagUrl(baseCurrencyAbbreviation),
-                1.toDouble()
+                1.toBigDecimal()
         ))
 
         ratesResponse.rates?.forEach { (abbreviation, rate) ->
