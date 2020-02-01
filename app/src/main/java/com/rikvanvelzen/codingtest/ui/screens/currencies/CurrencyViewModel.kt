@@ -37,7 +37,7 @@ class CurrencyViewModel : BaseViewModel() {
     private var baseCurrencyAbbreviation = "EUR"
 
     var itemPositionToMoveToTop = SingleLiveEvent<Int>()
-    var baseCurrencyAmountLD = MutableLiveData<Float>().default(100F)
+    var baseCurrencyAmountLD = MutableLiveData<Double>().default(100.toDouble())
         private set
 
     /**************************************************
@@ -46,12 +46,12 @@ class CurrencyViewModel : BaseViewModel() {
 
     fun getTabLayoutItems(): Array<CurrencyTabItems> = CurrencyTabItems.values()
 
-    fun getExchangeRate(currency: Currency): LiveData<Float?> {
+    fun getExchangeRate(currency: Currency): LiveData<Double?> {
 
         return MultipleLiveDataTransformation.biMap(currencyRates, baseCurrencyAmountLD)
         { ratesMap, baseCurrencyAmount ->
 
-            var amount: Float? = null
+            var amount: Double? = null
 
             if (ratesMap != null && baseCurrencyAmount != null) {
 
@@ -76,10 +76,10 @@ class CurrencyViewModel : BaseViewModel() {
     }
 
     fun onBaseCurrencyAmountChanged(amount: String?) {
-        baseCurrencyAmountLD.value = amount?.toFloatOrNull()
+        baseCurrencyAmountLD.value = amount?.toDoubleOrNull()
     }
 
-    fun onCurrencyItemClicked(currency: Currency, adapterPosition: Int, exchangeRate: Float) {
+    fun onCurrencyItemClicked(currency: Currency, adapterPosition: Int, exchangeRate: Double) {
 
         if (adapterPosition != 0) {
 

@@ -30,7 +30,6 @@ public class NetworkingModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient())
                 .build();
-
     }
 
     @Singleton

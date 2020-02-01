@@ -17,20 +17,6 @@ import androidx.lifecycle.MutableLiveData
 import com.rikvanvelzen.codingtest.RevolutApplication
 import java.text.DecimalFormat
 
-
-val formatter = DecimalFormat("0.00")
-
-fun Float.formatToTwoDecimals(): String {
-
-    return formatter.format(this)
-}
-
-fun Float.isDecimalValueZero(): Boolean {
-    val integer = this.toInt()
-    val decimal = this - integer.toDouble()
-    return decimal == 0.toDouble()
-}
-
 fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { postValue(initialValue) }
 
 fun EditText.placeCursorToEnd() {

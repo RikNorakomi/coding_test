@@ -9,8 +9,6 @@ package com.rikvanvelzen.codingtest.ui.screens.currencies.converter
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.rikvanvelzen.codingtest.common.kotlin.formatToTwoDecimals
-import com.rikvanvelzen.codingtest.common.kotlin.isDecimalValueZero
 import com.rikvanvelzen.codingtest.common.kotlin.showKeyboard
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
@@ -31,7 +29,7 @@ class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
     lateinit var stringFormatUtil: StringFormatUtil
 
     private val TEXT_WATCHER_ALREADY_SET_TAG = "text watcher set!"
-    private var exchangeRate: Float = 0F
+    private var exchangeRate: Double = 0.toDouble()
     private lateinit var currency: Currency
 
     /**************************************************

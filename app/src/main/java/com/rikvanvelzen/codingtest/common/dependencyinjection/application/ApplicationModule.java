@@ -30,7 +30,4 @@ public class ApplicationModule {
     CurrencyRepository getCurrencyRepository(CurrencyService currencyService) {
         return new CurrencyRepository(currencyService);
     }
-
-
-
 }

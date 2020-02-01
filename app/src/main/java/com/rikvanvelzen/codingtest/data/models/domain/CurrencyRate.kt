@@ -9,6 +9,6 @@ data class CurrencyRates (
          * "BGN": 1.9564,
          * etc.
          */
-        val rates: Map<String, Float>,
+        val rates: Map<String, Double>,
         val base: String
 )
