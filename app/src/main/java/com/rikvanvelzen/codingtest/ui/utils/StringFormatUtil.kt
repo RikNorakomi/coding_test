@@ -5,10 +5,11 @@
  */
 package com.rikvanvelzen.codingtest.ui.utils
 
-import com.rikvanvelzen.codingtest.common.kotlin.formatToTwoDecimals
-import com.rikvanvelzen.codingtest.common.kotlin.isDecimalValueZero
+import java.text.DecimalFormat
 
 class StringFormatUtil {
+
+    private val formatter = DecimalFormat("0.00")
 
     /**
      * Formats the currency's exchange rate:
@@ -16,7 +17,7 @@ class StringFormatUtil {
      * - to NO decimals if decimals value is zero
      * - to 2 decimals in other cases
      */
-    fun getFormattedExchangeRate(rate: Float?): String {
+    fun getFormattedExchangeRate(rate: Double?): String {
 
         rate?.let {
             if (it.isDecimalValueZero()) return it.toInt().toString()
@@ -25,5 +26,20 @@ class StringFormatUtil {
         }
 
         return ""
+    }
+
+    /**************************************************
+     * Private functions
+     **************************************************/
+
+    private fun Double.formatToTwoDecimals(): String {
+
+        return formatter.format(this)
+    }
+
+    private fun Double.isDecimalValueZero(): Boolean {
+        val integer = this.toInt()
+        val decimal = this - integer.toDouble()
+        return decimal == 0.toDouble()
     }
 }
