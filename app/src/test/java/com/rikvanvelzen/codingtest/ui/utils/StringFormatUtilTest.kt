@@ -92,7 +92,7 @@ class StringFormatUtilTest {
     @Test
     fun getFormattedExchangeRate_thirdDecimalFiveOrHigher_valueWithTwoDecimalsRoundedUpAsStringReturned() {
         // arrange
-        val rate = 88.805000.toBigDecimal()
+        val rate = (88.805000000).toBigDecimal()
         // act
         val result = SUT.getFormattedExchangeRate(rate)
         // assert

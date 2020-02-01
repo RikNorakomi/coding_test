@@ -11,6 +11,10 @@ import java.util.*
 
 class CountryDataProvider {
 
+    val COUNTRY_FLAG_BASE_URL = "https://hatscripts.github.io/circle-flags/flags/"
+    val IMAGE_FILE_TYPE = ".svg"
+    val countryCodeEU = "european_union"
+
     @SuppressLint("DefaultLocale")
     fun getCountryFlagUrl(currencyAbbreviation: String): String? {
 
@@ -18,10 +22,10 @@ class CountryDataProvider {
 
         var countryCode = currencyAbbreviation.substring(0, 2).toLowerCase()
         if (countryCode == "eu") {
-            countryCode = "european_union"
+            countryCode = countryCodeEU
         }
 
-        return "https://hatscripts.github.io/circle-flags/flags/$countryCode.svg"
+        return "$COUNTRY_FLAG_BASE_URL$countryCode$IMAGE_FILE_TYPE"
     }
 
     fun getCountryCodeFromName(countryName: String?): String? {

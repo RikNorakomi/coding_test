@@ -6,11 +6,9 @@
 package com.rikvanvelzen.codingtest.ui.utils
 
 import java.math.BigDecimal
-import java.text.DecimalFormat
+import java.math.RoundingMode
 
 class StringFormatUtil {
-
-    private val formatter = DecimalFormat("0.00")
 
     /**
      * Formats the currency's exchange rate:
@@ -35,12 +33,14 @@ class StringFormatUtil {
 
     private fun BigDecimal.formatToTwoDecimals(): String {
 
-        return formatter.format(this)
+        return this.setScale(2, RoundingMode.HALF_UP).toString()
     }
 
     private fun BigDecimal.isDecimalValueZero(): Boolean {
+
         val integer = this.toInt()
         val decimal = this - integer.toBigDecimal()
-        return decimal == 0.toBigDecimal()
+
+        return decimal.compareTo(BigDecimal.ZERO) == 0
     }
 }
