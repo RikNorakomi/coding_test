@@ -11,32 +11,28 @@ import java.util.*
 
 class CountryDataProvider {
 
-    companion object {
+    @SuppressLint("DefaultLocale")
+    fun getCountryFlagUrl(currencyAbbreviation: String): String? {
 
-        @SuppressLint("DefaultLocale")
-        fun getCountryFlagUrl(currencyAbbreviation: String): String? {
+        if (currencyAbbreviation.length < 2) return null
 
-            if (currencyAbbreviation.length < 2) return null
-
-            var countryCode = currencyAbbreviation.substring(0, 2).toLowerCase()
-            if (countryCode == "eu") {
-                countryCode = "european_union"
-            }
-
-            return "https://hatscripts.github.io/circle-flags/flags/$countryCode.svg"
+        var countryCode = currencyAbbreviation.substring(0, 2).toLowerCase()
+        if (countryCode == "eu") {
+            countryCode = "european_union"
         }
 
+        return "https://hatscripts.github.io/circle-flags/flags/$countryCode.svg"
+    }
 
-        fun getCountryCodeFromName(countryName: String?): String? {
+    fun getCountryCodeFromName(countryName: String?): String? {
 
-            val countries: MutableMap<String, String> = HashMap()
+        val countries: MutableMap<String, String> = HashMap()
 
-            for (iso in Locale.getISOCountries()) {
-                val locale = Locale("", iso)
-                countries[locale.displayCountry] = iso
-            }
-
-            return countries[countryName]
+        for (iso in Locale.getISOCountries()) {
+            val locale = Locale("", iso)
+            countries[locale.displayCountry] = iso
         }
+
+        return countries[countryName]
     }
 }

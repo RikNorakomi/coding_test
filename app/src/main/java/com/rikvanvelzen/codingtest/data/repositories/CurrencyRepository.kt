@@ -18,9 +18,9 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class CurrencyRepository(private val currencyService: CurrencyService) {
+class CurrencyRepository(private val currencyService: CurrencyService,
+                         private val countryDataProvider: CountryDataProvider) {
 
-    private val countryDataProvider by lazy { CountryDataProvider }
     private var currencyNamesCache: CurrencyNamesDTO? = null
 
     /**************************************************
@@ -87,7 +87,6 @@ class CurrencyRepository(private val currencyService: CurrencyService) {
         return currencies
     }
 
-
     private fun getCurrencyNamesObservable(): Observable<CurrencyNamesDTO> {
 
         if (currencyNamesCache != null) return Observable.just(currencyNamesCache)
@@ -104,7 +103,6 @@ class CurrencyRepository(private val currencyService: CurrencyService) {
                 }
                 .subscribeOn(Schedulers.io())
     }
-
 
     private fun getRatesObservable(baseCurrency: String): Observable<CurrencyRatesDTO>? {
 

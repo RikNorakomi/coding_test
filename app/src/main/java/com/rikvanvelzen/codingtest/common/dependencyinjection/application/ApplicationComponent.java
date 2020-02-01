@@ -14,7 +14,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ApplicationModule.class, NetworkingModule.class})
+@Component(modules = {ApplicationModule.class, NetworkingModule.class, DataProviderModule.class})
 public interface ApplicationComponent {
 
     public PresentationComponent newPresentationComponent(PresentationModule presentationModule);

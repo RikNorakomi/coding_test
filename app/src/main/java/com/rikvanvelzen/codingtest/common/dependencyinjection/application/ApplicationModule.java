@@ -9,6 +9,7 @@ package com.rikvanvelzen.codingtest.common.dependencyinjection.application;
 import android.app.Application;
 
 import com.rikvanvelzen.codingtest.data.api.CurrencyService;
+import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider;
 import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository;
 import com.rikvanvelzen.codingtest.ui.utils.StringFormatUtil;
 
@@ -27,7 +28,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    CurrencyRepository getCurrencyRepository(CurrencyService currencyService) {
-        return new CurrencyRepository(currencyService);
+    CurrencyRepository getCurrencyRepository(CurrencyService currencyService, CountryDataProvider countryDataProvider) {
+        return new CurrencyRepository(currencyService, countryDataProvider);
     }
 }
