@@ -8,6 +8,7 @@ package com.rikvanvelzen.codingtest
 
 import android.app.Application
 import android.content.Context
+import com.rikvanvelzen.codingtest.common.dependencyinjection.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

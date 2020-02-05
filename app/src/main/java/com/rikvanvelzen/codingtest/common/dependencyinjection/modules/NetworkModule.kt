@@ -1,6 +1,6 @@
-package com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules
+package com.rikvanvelzen.codingtest.common.dependencyinjection.modules
 
-import com.rikvanvelzen.tbocodingchallenge.data.api.BitcoinPriceIndexApi
+import com.rikvanvelzen.codingtest.data.api.CurrencyApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,24 +10,24 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-private const val BASE_URL_COIN_DESK = "https://api.coindesk.com/v1/bpi/"
+const val CURRENCY_BASE_URL = "https://revolut.duckdns.org"
 
 @Module
 class NetworkModule {
 
     @Singleton
     @Provides
-    fun getBitcoinPriceIndexService(retrofit: Retrofit): BitcoinPriceIndexApi = retrofit.create(BitcoinPriceIndexApi::class.java)
-
-    @Singleton
-    @Provides
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit =
             Retrofit.Builder()
-                    .baseUrl(BASE_URL_COIN_DESK)
+                    .baseUrl(CURRENCY_BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .build()
+
+    @Singleton
+    @Provides
+    fun getCurrencyService(retrofit: Retrofit): CurrencyApi = retrofit.create(CurrencyApi::class.java)
 
     @Singleton
     @Provides

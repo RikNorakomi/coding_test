@@ -11,9 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rikvanvelzen.codingtest.RevolutApplication
 import com.rikvanvelzen.codingtest.common.SingleLiveEvent
-import com.rikvanvelzen.codingtest.common.DIold.application.ApplicationComponent
-import com.rikvanvelzen.codingtest.common.DIold.presentation.PresentationComponent
-import com.rikvanvelzen.codingtest.common.DIold.presentation.PresentationModule
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
@@ -24,7 +21,6 @@ open class BaseViewModel : ViewModel() {
     val disposables: CompositeDisposable = CompositeDisposable()
 
     private val navigateBack = SingleLiveEvent<Any>()
-    private var mIsInjectorUsed = false
 
     /**************************************************
      * Lifecycle functions
@@ -45,21 +41,5 @@ open class BaseViewModel : ViewModel() {
 
     fun shouldNavigateBack(): LiveData<Any> {
         return navigateBack
-    }
-
-    fun getPresentationComponent(): PresentationComponent {
-        if (mIsInjectorUsed) {
-            throw RuntimeException("there is no need to use injector more than once")
-        }
-        mIsInjectorUsed = true
-        return getApplicationComponent().newPresentationComponent(PresentationModule())
-    }
-
-    /**************************************************
-     * Private functions
-     **************************************************/
-
-    private fun getApplicationComponent(): ApplicationComponent {
-        return RevolutApplication.applicationComponent
     }
 }

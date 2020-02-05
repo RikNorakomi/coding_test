@@ -1,6 +1,6 @@
-package com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules
+package com.rikvanvelzen.codingtest.common.dependencyinjection.modules
 
-import com.rikvanvelzen.tbocodingchallenge.data.repositories.BPIRatesRepository
+import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
 import com.rikvanvelzen.codingtest.domain.CurrencyListUseCaseImpl
 import com.rikvanvelzen.codingtest.domain.CurrencyListUseCase
 import com.rikvanvelzen.codingtest.domain.CurrentRateUseCaseImpl
@@ -12,8 +12,8 @@ import dagger.Provides
 class UseCasesModule {
 
     @Provides
-    fun providesHistoricalBPIRatesUseCase(bpiRatesRepository: BPIRatesRepository): CurrentRateUseCase = CurrentRateUseCaseImpl(bpiRatesRepository)
+    fun providesCurrencyListUseCase(currencyRepository: CurrencyRepository): CurrencyListUseCase = CurrencyListUseCaseImpl(currencyRepository)
 
     @Provides
-    fun providesBitcoinCurrentExchangeRateUseCase(bpiRatesRepository: BPIRatesRepository): CurrencyListUseCase = CurrencyListUseCaseImpl(bpiRatesRepository)
+    fun providesCurrentRateUseCase(currencyRepository: CurrencyRepository): CurrentRateUseCase = CurrentRateUseCaseImpl(currencyRepository)
 }

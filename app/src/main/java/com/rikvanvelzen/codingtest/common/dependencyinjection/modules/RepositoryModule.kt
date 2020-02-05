@@ -1,8 +1,8 @@
-package com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules
+package com.rikvanvelzen.codingtest.common.dependencyinjection.modules
 
-import com.rikvanvelzen.tbocodingchallenge.data.api.BitcoinPriceIndexApi
-import com.rikvanvelzen.tbocodingchallenge.data.repositories.BPIRatesRepository
-import com.rikvanvelzen.tbocodingchallenge.data.repositories.BPIRatesRepositoryImpl
+import com.rikvanvelzen.codingtest.data.api.CurrencyApi
+import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider
+import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -13,5 +13,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesBPIRatesRepository(bitcoinPriceIndexApi: BitcoinPriceIndexApi): BPIRatesRepository = BPIRatesRepositoryImpl(bitcoinPriceIndexApi)
+    fun providesBPIRatesRepository(currencyApi: CurrencyApi, countryDataProvider: CountryDataProvider)
+            : CurrencyRepository = CurrencyRepository(currencyApi, countryDataProvider)
 }

@@ -10,26 +10,23 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.rikvanvelzen.codingtest.common.kotlin.showKeyboard
+import com.rikvanvelzen.codingtest.common.utils.StringFormatUtil
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
 import com.rikvanvelzen.codingtest.ui.screens.currencies.BaseViewHolder
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
-import com.rikvanvelzen.codingtest.common.utils.StringFormatUtil
 import java.math.BigDecimal
-import javax.inject.Inject
+
+private const val TEXT_WATCHER_ALREADY_SET_TAG = "text watcher set!"
 
 class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
                               private val viewModel: CurrencyViewModel,
                               private val lifecycleOwner: LifecycleOwner) : BaseViewHolder(binding.root) {
 
-    init {
-        getPresentationComponent().inject(this)
+    companion object {
+        val stringFormatUtil = StringFormatUtil()
     }
 
-    @Inject
-    lateinit var stringFormatUtil: StringFormatUtil
-
-    private val TEXT_WATCHER_ALREADY_SET_TAG = "text watcher set!"
     private var exchangeRate: BigDecimal = 0.toBigDecimal()
     private lateinit var currency: Currency
 

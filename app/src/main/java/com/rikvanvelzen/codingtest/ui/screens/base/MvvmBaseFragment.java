@@ -6,6 +6,7 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,8 @@ import androidx.lifecycle.ViewModelProviders;
 import java.lang.reflect.ParameterizedType;
 
 import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 public abstract class MvvmBaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment {
 
@@ -61,6 +64,12 @@ public abstract class MvvmBaseFragment<B extends ViewDataBinding, VM extends Bas
         setupBaseViewModelObservers();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     /******************************************************

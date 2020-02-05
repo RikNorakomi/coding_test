@@ -6,7 +6,7 @@
 
 package com.rikvanvelzen.codingtest.data.repositories
 
-import com.rikvanvelzen.codingtest.data.api.CurrencyService
+import com.rikvanvelzen.codingtest.data.api.CurrencyApi
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyNamesDTO
@@ -18,7 +18,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class CurrencyRepository(private val currencyService: CurrencyService,
+class CurrencyRepository(private val currencyApi: CurrencyApi,
                          private val countryDataProvider: CountryDataProvider) {
 
     private var currencyNamesCache: CurrencyNamesDTO? = null
@@ -28,7 +28,7 @@ class CurrencyRepository(private val currencyService: CurrencyService,
      **************************************************/
 
     fun getCurrencyRatesRx(baseCurrencyAbbreviation: String): Observable<CurrencyRates> {
-        return currencyService.getCurrencyRatesRx(baseCurrencyAbbreviation)
+        return currencyApi.getCurrencyRatesRx(baseCurrencyAbbreviation)
                 .map {
                     CurrencyRates(it.rates ?: emptyMap(), baseCurrencyAbbreviation)
                 }
@@ -91,7 +91,7 @@ class CurrencyRepository(private val currencyService: CurrencyService,
 
         if (currencyNamesCache != null) return Observable.just(currencyNamesCache)
 
-        return currencyService.getCurrencyNamesRx()
+        return currencyApi.getCurrencyNamesRx()
                 .map {
 
                     // map response into CurrencyNames object
@@ -107,7 +107,7 @@ class CurrencyRepository(private val currencyService: CurrencyService,
     private fun getRatesObservable(baseCurrency: String): Observable<CurrencyRatesDTO>? {
 
         return Observable.interval(0, 1, TimeUnit.SECONDS)
-                .flatMap { currencyService.getCurrencyRatesRx(baseCurrency) }
+                .flatMap { currencyApi.getCurrencyRatesRx(baseCurrency) }
                 .subscribeOn(Schedulers.io())
     }
 }

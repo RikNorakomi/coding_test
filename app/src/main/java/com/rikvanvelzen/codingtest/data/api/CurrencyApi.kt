@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface CurrencyService {
+interface CurrencyApi {
 
     @GET("https://openexchangerates.org/api/currencies.json")
     fun getCurrencyNamesRx(): Observable<Map<String, String>>

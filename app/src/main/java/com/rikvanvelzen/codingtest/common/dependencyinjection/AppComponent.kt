@@ -7,9 +7,7 @@
 package com.rikvanvelzen.codingtest.common.dependencyinjection
 
 import com.rikvanvelzen.codingtest.RevolutApplication
-import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.ActivityBindingModule
-import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.FragmentBindingModule
-import com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules.*
+import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.*
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -22,6 +20,8 @@ import javax.inject.Singleton
             ActivityBindingModule::class,
             FragmentBindingModule::class,
             RepositoryModule::class,
+            DataProviderModule::class,
+            UtilsModule::class,
             NetworkModule::class,
             ApplicationModule::class,
             UseCasesModule::class,

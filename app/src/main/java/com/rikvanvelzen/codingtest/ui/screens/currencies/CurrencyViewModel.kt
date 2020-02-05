@@ -17,8 +17,8 @@ import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.domain.CurrencyListUseCase
 import com.rikvanvelzen.codingtest.domain.CurrentRateUseCase
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
-import com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules.SCHEDULER_IO
-import com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules.SCHEDULER_MAIN_THREAD
+import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.SCHEDULER_IO
+import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.SCHEDULER_MAIN_THREAD
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
