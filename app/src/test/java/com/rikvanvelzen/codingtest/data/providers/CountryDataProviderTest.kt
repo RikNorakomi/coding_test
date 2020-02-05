@@ -18,14 +18,6 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class CountryDataProviderTest {
 
-    // region constants
-
-    // end region constants
-
-    // region helper fields
-
-    // end region helper fields
-
     private lateinit var SUT: CountryDataProvider
     private lateinit var baseUrl: String
     private lateinit var fileType: String
@@ -33,7 +25,7 @@ class CountryDataProviderTest {
     @Before
     fun setup() {
         SUT = CountryDataProvider()
-        baseUrl = SUT.COUNTRY_FLAG_BASE_URL
+        baseUrl = SUT.COUNTRY_FLAGS_URL
         fileType = SUT.IMAGE_FILE_TYPE
     }
 
@@ -104,7 +96,6 @@ class CountryDataProviderTest {
      * Private functions
      **************************************************/
 
-    // region helper methods
     private fun getCountryCodeFromUrl(url: String?): String {
 
         if (url == null) throw IllegalStateException("url is null!")
