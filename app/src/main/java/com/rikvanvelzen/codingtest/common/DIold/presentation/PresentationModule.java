@@ -4,9 +4,9 @@
  * Last modified 1/30/20 1:04 PM
  */
 
-package com.rikvanvelzen.codingtest.common.dependencyinjection.presentation;
+package com.rikvanvelzen.codingtest.common.DIold.presentation;
 
-import com.rikvanvelzen.codingtest.ui.utils.StringFormatUtil;
+import com.rikvanvelzen.codingtest.common.utils.StringFormatUtil;
 
 import dagger.Module;
 import dagger.Provides;

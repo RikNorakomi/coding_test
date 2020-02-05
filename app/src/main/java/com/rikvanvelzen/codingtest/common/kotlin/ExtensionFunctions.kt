@@ -32,7 +32,7 @@ fun CharSequence.toFloat(): Float?{
 }
 
 fun EditText.showKeyboard(forceKeyboard: Boolean = false) {
-    val inputMethodManager = RevolutApplication.appContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val inputMethodManager = getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.showSoftInput(this, if (forceKeyboard) InputMethodManager.SHOW_FORCED else InputMethodManager.SHOW_IMPLICIT)
 }
 
@@ -45,3 +45,11 @@ fun Context.showToast(msg: String) {
 
     toast.show()
 }
+
+/**************************************************
+ * Private functions
+ **************************************************/
+
+private fun getAppContext() = RevolutApplication.appContext
+
+

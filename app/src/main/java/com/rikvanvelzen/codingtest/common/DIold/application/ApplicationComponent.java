@@ -4,10 +4,10 @@
  * Last modified 1/30/20 1:04 PM
  */
 
-package com.rikvanvelzen.codingtest.common.dependencyinjection.application;
+package com.rikvanvelzen.codingtest.common.DIold.application;
 
-import com.rikvanvelzen.codingtest.common.dependencyinjection.presentation.PresentationComponent;
-import com.rikvanvelzen.codingtest.common.dependencyinjection.presentation.PresentationModule;
+import com.rikvanvelzen.codingtest.common.DIold.presentation.PresentationComponent;
+import com.rikvanvelzen.codingtest.common.DIold.presentation.PresentationModule;
 
 import javax.inject.Singleton;
 

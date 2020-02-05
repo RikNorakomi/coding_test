@@ -4,7 +4,7 @@
  * Last modified 1/30/20 1:05 PM
  */
 
-package com.rikvanvelzen.codingtest.common.dependencyinjection.viewmodel;
+package com.rikvanvelzen.codingtest.common.DIold.viewmodel;
 
 
 import androidx.annotation.NonNull;

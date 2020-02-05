@@ -4,9 +4,9 @@
  * Last modified 1/30/20 1:04 PM
  */
 
-package com.rikvanvelzen.codingtest.common.dependencyinjection.application;
+package com.rikvanvelzen.codingtest.common.DIold.application;
 
-import com.rikvanvelzen.codingtest.common.dependencyinjection.Constants;
+import com.rikvanvelzen.codingtest.common.DIold.Constants;
 import com.rikvanvelzen.codingtest.data.api.CurrencyService;
 
 import javax.inject.Singleton;

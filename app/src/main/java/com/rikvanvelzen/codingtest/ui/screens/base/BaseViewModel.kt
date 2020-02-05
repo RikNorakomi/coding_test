@@ -11,9 +11,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rikvanvelzen.codingtest.RevolutApplication
 import com.rikvanvelzen.codingtest.common.SingleLiveEvent
-import com.rikvanvelzen.codingtest.common.dependencyinjection.application.ApplicationComponent
-import com.rikvanvelzen.codingtest.common.dependencyinjection.presentation.PresentationComponent
-import com.rikvanvelzen.codingtest.common.dependencyinjection.presentation.PresentationModule
+import com.rikvanvelzen.codingtest.common.DIold.application.ApplicationComponent
+import com.rikvanvelzen.codingtest.common.DIold.presentation.PresentationComponent
+import com.rikvanvelzen.codingtest.common.DIold.presentation.PresentationModule
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {

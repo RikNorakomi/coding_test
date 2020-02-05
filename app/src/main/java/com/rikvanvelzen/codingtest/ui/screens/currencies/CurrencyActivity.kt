@@ -11,9 +11,17 @@ import com.rikvanvelzen.codingtest.R
 import com.rikvanvelzen.codingtest.databinding.ActivityCurrencyBinding
 import com.rikvanvelzen.codingtest.ui.screens.base.MvvmBaseActivity
 import com.rikvanvelzen.codingtest.ui.components.ViewPagerAdapter
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_currency.*
+import javax.inject.Inject
 
-class CurrencyActivity : MvvmBaseActivity<ActivityCurrencyBinding, CurrencyViewModel>() {
+class CurrencyActivity : MvvmBaseActivity<ActivityCurrencyBinding, CurrencyViewModel>(), HasAndroidInjector {
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     /**************************************************
      * Lifecycle functions
@@ -22,9 +30,14 @@ class CurrencyActivity : MvvmBaseActivity<ActivityCurrencyBinding, CurrencyViewM
     override fun getLayoutResource(): Int = R.layout.activity_currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this) // todo move to base activity
         super.onCreate(savedInstanceState)
 
         setupViews()
+    }
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return dispatchingAndroidInjector
     }
 
     /**************************************************

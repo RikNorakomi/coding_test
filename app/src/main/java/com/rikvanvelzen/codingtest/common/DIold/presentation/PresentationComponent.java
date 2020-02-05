@@ -4,7 +4,7 @@
  * Last modified 1/30/20 1:05 PM
  */
 
-package com.rikvanvelzen.codingtest.common.dependencyinjection.presentation;
+package com.rikvanvelzen.codingtest.common.DIold.presentation;
 
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyActivity;
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel;

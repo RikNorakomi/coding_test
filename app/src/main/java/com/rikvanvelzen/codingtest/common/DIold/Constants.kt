@@ -4,7 +4,7 @@
  * Last modified 1/30/20 1:17 PM
  */
 
-package com.rikvanvelzen.codingtest.common.dependencyinjection
+package com.rikvanvelzen.codingtest.common.DIold
 
 class Constants {
 

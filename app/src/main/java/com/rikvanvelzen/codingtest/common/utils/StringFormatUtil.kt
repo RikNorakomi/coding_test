@@ -3,7 +3,7 @@
  * Copyright (c) 2020. All rights reserved
  * Last modified 1/31/20 4:13 PM
  */
-package com.rikvanvelzen.codingtest.ui.utils
+package com.rikvanvelzen.codingtest.common.utils
 
 import java.math.BigDecimal
 import java.math.RoundingMode

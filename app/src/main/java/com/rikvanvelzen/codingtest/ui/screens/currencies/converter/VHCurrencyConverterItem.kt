@@ -14,7 +14,7 @@ import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
 import com.rikvanvelzen.codingtest.ui.screens.currencies.BaseViewHolder
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
-import com.rikvanvelzen.codingtest.ui.utils.StringFormatUtil
+import com.rikvanvelzen.codingtest.common.utils.StringFormatUtil
 import java.math.BigDecimal
 import javax.inject.Inject
 

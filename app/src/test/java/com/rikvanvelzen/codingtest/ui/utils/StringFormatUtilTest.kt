@@ -6,6 +6,7 @@
 
 package com.rikvanvelzen.codingtest.ui.utils
 
+import com.rikvanvelzen.codingtest.common.utils.StringFormatUtil
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
 import org.junit.Before

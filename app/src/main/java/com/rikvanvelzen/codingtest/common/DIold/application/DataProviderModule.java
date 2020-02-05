@@ -4,11 +4,9 @@
  * Last modified 2/1/20 2:05 PM
  */
 
-package com.rikvanvelzen.codingtest.common.dependencyinjection.application;
+package com.rikvanvelzen.codingtest.common.DIold.application;
 
 import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

@@ -22,9 +22,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.lang.reflect.ParameterizedType;
 
+import javax.inject.Inject;
+
 public abstract class MvvmBaseFragment<B extends ViewDataBinding, VM extends BaseViewModel> extends Fragment {
 
     public final String TAG = getClass().getSimpleName();
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     protected B binding;
     protected VM viewModel;
@@ -37,7 +42,8 @@ public abstract class MvvmBaseFragment<B extends ViewDataBinding, VM extends Bas
     protected abstract int getLayoutResource();
 
     private ViewModelProvider getViewModelProvider() {
-        return getActivity() != null ? ViewModelProviders.of(getActivity()) : ViewModelProviders.of(this);
+        return getActivity() != null ? ViewModelProviders.of(getActivity(), viewModelFactory)
+                : ViewModelProviders.of(this, viewModelFactory);
     }
 
     /******************************************************
@@ -63,7 +69,7 @@ public abstract class MvvmBaseFragment<B extends ViewDataBinding, VM extends Bas
 
     private void setupBaseViewModelObservers() {
 
-//        viewModel.shouldNavigateBack().observe(this, navigate -> getActivity().onBackPressed());
+        viewModel.shouldNavigateBack().observe(this, navigate -> getActivity().onBackPressed());
     }
 
     @SuppressWarnings("unchecked")

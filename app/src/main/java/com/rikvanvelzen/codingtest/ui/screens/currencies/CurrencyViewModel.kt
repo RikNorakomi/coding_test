@@ -14,22 +14,26 @@ import com.rikvanvelzen.codingtest.common.SingleLiveEvent
 import com.rikvanvelzen.codingtest.common.kotlin.default
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
-import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
+import com.rikvanvelzen.codingtest.domain.CurrencyListUseCase
+import com.rikvanvelzen.codingtest.domain.CurrentRateUseCase
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
+import com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules.SCHEDULER_IO
+import com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.modules.SCHEDULER_MAIN_THREAD
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Named
 
-class CurrencyViewModel : BaseViewModel() {
+class CurrencyViewModel
+@Inject constructor(
+        private val currencyRatesUseCase: CurrentRateUseCase,
+        private val currencyDataUseCase: CurrencyListUseCase,
+        @Named(SCHEDULER_IO) val subscribeOnScheduler: Scheduler,
+        @Named(SCHEDULER_MAIN_THREAD) val observeOnScheduler: Scheduler) : BaseViewModel() {
 
-    init {
-        getPresentationComponent().inject(this)
-    }
-
-    @Inject
-    lateinit var currencyRepository: CurrencyRepository
 
     private var currencyData: SingleLiveEvent<List<Currency>>? = null
     private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
@@ -112,7 +116,7 @@ class CurrencyViewModel : BaseViewModel() {
 
     private fun loadCurrencyData() {
 
-        currencyRepository.getCurrencyListObservableRx(baseCurrencyAbbreviation)
+        currencyDataUseCase.getCurrencyList(baseCurrencyAbbreviation)
                 .doOnSubscribe { isLoading.value = true }
                 .subscribe(
                         { currencies ->
@@ -131,7 +135,7 @@ class CurrencyViewModel : BaseViewModel() {
 
         currencyRatesDisposable?.let { disposables.remove(it) }
         currencyRatesDisposable = Observable.interval(0, 1, TimeUnit.SECONDS)
-                .flatMap { currencyRepository.getCurrencyRatesRx(baseCurrencyAbbreviation) }
+                .flatMap { currencyRatesUseCase.getCurrentRates(baseCurrencyAbbreviation) }
                 .subscribe({
                     currencyRates.postValue(it)
                 },
