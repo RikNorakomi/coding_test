@@ -13,9 +13,7 @@ import com.rikvanvelzen.codingtest.data.models.dto.CurrencyNamesDTO
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyRatesDTO
 import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class CurrencyRepository(private val currencyApi: CurrencyApi,
@@ -32,8 +30,6 @@ class CurrencyRepository(private val currencyApi: CurrencyApi,
                 .map {
                     CurrencyRates(it.rates ?: emptyMap(), baseCurrencyAbbreviation)
                 }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getCurrencyListObservableRx(baseCurrencyAbbreviation: String): Observable<ArrayList<Currency>> {
@@ -47,7 +43,6 @@ class CurrencyRepository(private val currencyApi: CurrencyApi,
                 BiFunction { currencyNames, currencyRates ->
                     combineCurrencyNamesAndRates(currencyNames, currencyRates, baseCurrencyAbbreviation)
                 })
-                .observeOn(AndroidSchedulers.mainThread())
     }
 
     /**************************************************
@@ -101,13 +96,11 @@ class CurrencyRepository(private val currencyApi: CurrencyApi,
 
                     response
                 }
-                .subscribeOn(Schedulers.io())
     }
 
     private fun getRatesObservable(baseCurrency: String): Observable<CurrencyRatesDTO>? {
 
         return Observable.interval(0, 1, TimeUnit.SECONDS)
                 .flatMap { currencyApi.getCurrencyRatesRx(baseCurrency) }
-                .subscribeOn(Schedulers.io())
     }
 }

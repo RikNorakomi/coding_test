@@ -9,11 +9,11 @@ package com.rikvanvelzen.codingtest.data.providers
 import android.annotation.SuppressLint
 import java.util.*
 
-class CountryDataProvider {
+const val COUNTRY_FLAGS_URL = "https://hatscripts.github.io/circle-flags/flags/"
+const val IMAGE_FILE_TYPE = ".svg"
+const val COUNTRY_CODE_EU = "european_union"
 
-    val COUNTRY_FLAGS_URL = "https://hatscripts.github.io/circle-flags/flags/"
-    val IMAGE_FILE_TYPE = ".svg"
-    val countryCodeEU = "european_union"
+class CountryDataProvider {
 
     @SuppressLint("DefaultLocale")
     fun getCountryFlagUrl(currencyAbbreviation: String): String? {
@@ -22,7 +22,7 @@ class CountryDataProvider {
 
         var countryCode = currencyAbbreviation.substring(0, 2).toLowerCase()
         if (countryCode == "eu") {
-            countryCode = countryCodeEU
+            countryCode = COUNTRY_CODE_EU
         }
 
         return "$COUNTRY_FLAGS_URL$countryCode$IMAGE_FILE_TYPE"

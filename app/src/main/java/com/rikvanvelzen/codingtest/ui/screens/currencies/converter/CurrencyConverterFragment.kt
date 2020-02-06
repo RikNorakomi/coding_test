@@ -7,6 +7,7 @@
 package com.rikvanvelzen.codingtest.ui.screens.currencies.converter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.rikvanvelzen.codingtest.R
@@ -36,6 +37,7 @@ class CurrencyConverterFragment : MvvmBaseFragment<CurrencyConverterFragmentBind
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         viewModel?.onConverterScreenVisibilityChanged(isVisibleToUser)
     }
+
     /**************************************************
      * Private functions
      **************************************************/

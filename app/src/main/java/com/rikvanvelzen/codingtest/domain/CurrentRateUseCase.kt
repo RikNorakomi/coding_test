@@ -9,7 +9,6 @@ package com.rikvanvelzen.codingtest.domain
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import io.reactivex.Observable
 
-
 interface CurrentRateUseCase {
 
     fun getCurrentRates(baseCurrencyAbbreviation: String): Observable<CurrencyRates>

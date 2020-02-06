@@ -11,14 +11,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rikvanvelzen.codingtest.common.MultipleLiveDataTransformation
 import com.rikvanvelzen.codingtest.common.SingleLiveEvent
+import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.SCHEDULER_IO
+import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.SCHEDULER_MAIN_THREAD
 import com.rikvanvelzen.codingtest.common.kotlin.default
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.domain.CurrencyListUseCase
 import com.rikvanvelzen.codingtest.domain.CurrentRateUseCase
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
-import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.SCHEDULER_IO
-import com.rikvanvelzen.codingtest.common.dependencyinjection.modules.SCHEDULER_MAIN_THREAD
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
@@ -33,8 +34,7 @@ class CurrencyViewModel
         private val currencyDataUseCase: CurrencyListUseCase,
         @Named(SCHEDULER_IO) val subscribeOnScheduler: Scheduler,
         @Named(SCHEDULER_MAIN_THREAD) val observeOnScheduler: Scheduler) : BaseViewModel() {
-
-
+    
     private var currencyData: SingleLiveEvent<List<Currency>>? = null
     private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
     private var currencyRatesDisposable: Disposable? = null
@@ -106,7 +106,7 @@ class CurrencyViewModel
         if (visibleToUser) {
             loadCurrencyRates()
         } else {
-            currencyRatesDisposable?.let { disposables.remove(it) }
+            currencyRatesDisposable?.dispose()
         }
     }
 
@@ -117,6 +117,8 @@ class CurrencyViewModel
     private fun loadCurrencyData() {
 
         currencyDataUseCase.getCurrencyList(baseCurrencyAbbreviation)
+                .subscribeOn(subscribeOnScheduler)
+                .observeOn(observeOnScheduler)
                 .doOnSubscribe { isLoading.value = true }
                 .subscribe(
                         { currencies ->
@@ -133,20 +135,12 @@ class CurrencyViewModel
 
     private fun loadCurrencyRates() {
 
-        currencyRatesDisposable?.let { disposables.remove(it) }
         currencyRatesDisposable = Observable.interval(0, 1, TimeUnit.SECONDS)
                 .flatMap { currencyRatesUseCase.getCurrentRates(baseCurrencyAbbreviation) }
-                .subscribe({
-                    currencyRates.postValue(it)
-                },
-                        { error ->
-                            // something went wrong
-                            // TODO
-                            Log.e(TAG, "TODO Handle error! Error:$error")
-
-                        }).also {
-                    disposables.add(it)
-                }
+                .subscribeOn(subscribeOnScheduler)
+                .observeOn(observeOnScheduler)
+                .subscribe { currencyRates.postValue(it) }
+                .also { disposables.add(it) }
     }
 }
 

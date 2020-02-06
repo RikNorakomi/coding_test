@@ -8,25 +8,25 @@ package com.rikvanvelzen.codingtest.data.providers
 
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.nullValue
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
-
 @RunWith(MockitoJUnitRunner::class)
 class CountryDataProviderTest {
 
+    private val baseUrl = COUNTRY_FLAGS_URL
+    private val fileType = IMAGE_FILE_TYPE
+    private val countryCodeEU = COUNTRY_CODE_EU
+
     private lateinit var SUT: CountryDataProvider
-    private lateinit var baseUrl: String
-    private lateinit var fileType: String
 
     @Before
     fun setup() {
         SUT = CountryDataProvider()
-        baseUrl = SUT.COUNTRY_FLAGS_URL
-        fileType = SUT.IMAGE_FILE_TYPE
     }
 
     @Test
@@ -61,7 +61,7 @@ class CountryDataProviderTest {
         val url = SUT.getCountryFlagUrl(currencyAbbr)
         val countryCode = getCountryCodeFromUrl(url)
         // assert
-        assertThat(countryCode.length, `is`(2))
+        assertEquals(countryCode.length, 2)
     }
 
     @Test
@@ -73,7 +73,7 @@ class CountryDataProviderTest {
         val countryCode = getCountryCodeFromUrl(url)
 
         // assert
-        assertThat(countryCode, `is`(SUT.countryCodeEU))
+        assertEquals(countryCode, countryCodeEU)
     }
 
     @Test
@@ -89,7 +89,7 @@ class CountryDataProviderTest {
         // act
         val resultGermany = SUT.getCountryCodeFromName(countryNameGermany)
         // assert
-        assertThat(resultGermany, `is`("DE"))
+        assertEquals(resultGermany, "DE")
     }
 
     /**************************************************

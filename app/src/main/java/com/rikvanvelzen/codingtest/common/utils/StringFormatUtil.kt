@@ -1,7 +1,7 @@
 /*
  * Created by Rik van Velzen, Norakomi Software Development.
  * Copyright (c) 2020. All rights reserved
- * Last modified 1/31/20 4:13 PM
+ * Last modified 2/5/20 10:43 PM
  */
 package com.rikvanvelzen.codingtest.common.utils
 

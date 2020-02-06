@@ -9,7 +9,6 @@ data class CurrencyNamesDTO(
          *  etc.
          */
         val names: Map<String, String>? = null
-
 )
 
 

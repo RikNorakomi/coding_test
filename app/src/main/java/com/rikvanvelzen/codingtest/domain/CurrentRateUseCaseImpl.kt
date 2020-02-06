@@ -16,6 +16,5 @@ class CurrentRateUseCaseImpl(private val currencyRepository: CurrencyRepository)
 
         return currencyRepository.getCurrencyRatesRx(baseCurrencyAbbreviation)
     }
-
 }
 
