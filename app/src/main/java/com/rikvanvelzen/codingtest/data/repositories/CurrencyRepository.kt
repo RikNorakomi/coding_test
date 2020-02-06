@@ -7,16 +7,11 @@
 package com.rikvanvelzen.codingtest.data.repositories
 
 import com.rikvanvelzen.codingtest.data.api.CurrencyApi
-import com.rikvanvelzen.codingtest.data.models.domain.Currency
-import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyNamesDTO
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyRatesDTO
-import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 
-class CurrencyRepository(private val currencyApi: CurrencyApi,
-                         private val countryDataProvider: CountryDataProvider) {
+class CurrencyRepository(private val currencyApi: CurrencyApi) {
 
     private var currencyNamesCache: CurrencyNamesDTO? = null
 
@@ -28,58 +23,7 @@ class CurrencyRepository(private val currencyApi: CurrencyApi,
         return currencyApi.getCurrencyRatesRx(baseCurrencyAbbreviation)
     }
 
-    fun getCurrencyListObservableRx(baseCurrencyAbbreviation: String): Observable<ArrayList<Currency>> {
-
-        val namesObservable = getCurrencyNamesObservable()
-        val ratesObservable = currencyApi.getCurrencyRatesRx(baseCurrencyAbbreviation)
-
-        return Observable.combineLatest<CurrencyNamesDTO, CurrencyRatesDTO, ArrayList<Currency>>(
-                namesObservable,
-                ratesObservable,
-                BiFunction { currencyNames, currencyRates ->
-                    combineCurrencyNamesAndRates(currencyNames, currencyRates, baseCurrencyAbbreviation)
-                })
-                .take(1)
-    }
-
-    /**************************************************
-     * Private functions
-     **************************************************/
-
-    private fun combineCurrencyNamesAndRates(
-            namesResponse: CurrencyNamesDTO,
-            ratesResponse: CurrencyRatesDTO,
-            baseCurrencyAbbreviation: String): ArrayList<Currency> {
-
-        val currencies = ArrayList<Currency>()
-
-        // add baseCurrency as first item
-        val baseCurrencyName = namesResponse.names?.get(baseCurrencyAbbreviation)
-        currencies.add(Currency(
-                baseCurrencyAbbreviation,
-                baseCurrencyName,
-                countryDataProvider.getCountryCodeFromName(baseCurrencyName),
-                countryDataProvider.getCountryFlagUrl(baseCurrencyAbbreviation),
-                1.toBigDecimal()
-        ))
-
-        ratesResponse.rates?.forEach { (abbreviation, rate) ->
-
-            val name = namesResponse.names?.get(abbreviation)
-            currencies.add(
-                    Currency(
-                            abbreviation,
-                            name,
-                            countryDataProvider.getCountryCodeFromName(name),
-                            countryDataProvider.getCountryFlagUrl(abbreviation),
-                            rate
-                    ))
-        }
-
-        return currencies
-    }
-
-    private fun getCurrencyNamesObservable(): Observable<CurrencyNamesDTO> {
+    fun getCurrencyNamesRx(): Observable<CurrencyNamesDTO> {
 
         if (currencyNamesCache != null) return Observable.just(currencyNamesCache)
 

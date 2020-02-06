@@ -13,6 +13,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun providesBPIRatesRepository(currencyApi: CurrencyApi, countryDataProvider: CountryDataProvider)
-            : CurrencyRepository = CurrencyRepository(currencyApi, countryDataProvider)
+    fun providesBPIRatesRepository(currencyApi: CurrencyApi)
+            : CurrencyRepository = CurrencyRepository(currencyApi)
 }

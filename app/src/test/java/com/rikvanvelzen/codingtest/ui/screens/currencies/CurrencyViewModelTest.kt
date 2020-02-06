@@ -11,7 +11,7 @@ import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.domain.CurrencyListUseCase
 import com.rikvanvelzen.codingtest.domain.CurrentRateUseCase
-import com.rikvanvelzen.tbocodingchallenge.common.getOrAwaitValue
+import com.rikvanvelzen.codingtest.common.getOrAwaitValue
 import com.rikvanvelzen.tbocodingchallenge.common.whenever
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

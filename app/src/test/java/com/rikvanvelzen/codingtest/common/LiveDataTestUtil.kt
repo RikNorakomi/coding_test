@@ -1,6 +1,6 @@
 /* Copyright 2019 Google LLC.
 SPDX-License-Identifier: Apache-2.0 */
-package com.rikvanvelzen.tbocodingchallenge.common
+package com.rikvanvelzen.codingtest.common
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
