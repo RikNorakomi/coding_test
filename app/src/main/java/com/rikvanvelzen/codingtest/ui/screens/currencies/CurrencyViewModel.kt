@@ -125,7 +125,6 @@ class CurrencyViewModel
         currencyDataUseCase.getCurrencyList(baseCurrencyAbbreviation)
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
-                .take(1)
                 .doOnSubscribe { isLoading.value = true }
                 .doAfterTerminate { isLoading.postValue(false) }
                 .subscribe(

@@ -43,6 +43,7 @@ class CurrencyRepository(private val currencyApi: CurrencyApi,
                 BiFunction { currencyNames, currencyRates ->
                     combineCurrencyNamesAndRates(currencyNames, currencyRates, baseCurrencyAbbreviation)
                 })
+                .take(1)
     }
 
     /**************************************************

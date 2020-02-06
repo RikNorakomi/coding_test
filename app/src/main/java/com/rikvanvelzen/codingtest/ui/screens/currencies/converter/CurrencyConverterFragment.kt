@@ -47,10 +47,12 @@ class CurrencyConverterFragment : MvvmBaseFragment<CurrencyConverterFragmentBind
 
         viewModel.getCurrencyData().observe(viewLifecycleOwner, Observer { adapter.setData(it) })
         viewModel.itemPositionToMoveToTop.observe(viewLifecycleOwner, Observer { adapter.swapItemToTop(it) })
-        viewModel.errorSnackbar.observe(viewLifecycleOwner, Observer {
-            Snackbar.make(container,getString(R.string.error_snackbar_msg),Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.error_snackbar_action)) {viewModel.loadData()}
-                    .show()
-        })
+        viewModel.errorSnackbar.observe(viewLifecycleOwner, Observer { showErrorSnackbar() })
+    }
+
+    private fun showErrorSnackbar() {
+        Snackbar.make(container, getString(R.string.error_snackbar_msg), Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.error_snackbar_action)) { viewModel.loadData() }
+                .show()
     }
 }
