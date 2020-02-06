@@ -1,7 +1,3 @@
-## WORK IN PROGRESS ##
-
-This code is part of a coding test from a job interview. The code base isn't finished yet, but it already gives a decent idea of what the final code will evolve into.
-
 ### Description of the coding test ###
 
 You should implement one screen with a list of currencies. Link to designs in figma:
