@@ -34,7 +34,6 @@ class CurrencyViewModelTest {
     @JvmField
     val rule = InstantTaskExecutorRule()
 
-
     @Mock
     lateinit var currentRateUseCase: CurrentRateUseCase
     @Mock
@@ -84,12 +83,12 @@ class CurrencyViewModelTest {
     fun getCurrencyData_getCurrentRateSuccess_liveDataUpdated() {
 
         // Arrange / Given
-        val expectedResult = getCurrencyRateItem1()
+        val expectedResult = getCurrencyRateItem()
         whenever(currencyListUseCase.getCurrencyList(anyString())).thenReturn(Observable.empty())
 
         // Act / When
         whenever(currentRateUseCase.getCurrentRates(baseCurrencyAbbreviation))
-                .thenReturn(Observable.just(getCurrencyRateItem1()))
+                .thenReturn(Observable.just(getCurrencyRateItem()))
         SUT.getCurrencyData()
 
         // Assert
@@ -153,15 +152,9 @@ class CurrencyViewModelTest {
         )
     }
 
-    private fun getCurrencyRateItem1(): CurrencyRates {
+    private fun getCurrencyRateItem(): CurrencyRates {
         return CurrencyRates(
                 mapOf("AUD1" to 1.2432.toBigDecimal()),
-                baseCurrencyAbbreviation)
-    }
-
-    private fun getCurrencyRateItem2(): CurrencyRates {
-        return CurrencyRates(
-                mapOf("AUD2" to 1.52.toBigDecimal()),
                 baseCurrencyAbbreviation)
     }
 }
