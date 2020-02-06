@@ -9,14 +9,9 @@ package com.rikvanvelzen.codingtest.ui.screens.currencies
 import android.os.Bundle
 import com.rikvanvelzen.codingtest.R
 import com.rikvanvelzen.codingtest.databinding.ActivityCurrencyBinding
-import com.rikvanvelzen.codingtest.ui.screens.base.MvvmBaseActivity
 import com.rikvanvelzen.codingtest.ui.components.ViewPagerAdapter
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import com.rikvanvelzen.codingtest.ui.screens.base.MvvmBaseActivity
 import kotlinx.android.synthetic.main.activity_currency.*
-import javax.inject.Inject
 
 class CurrencyActivity : MvvmBaseActivity<ActivityCurrencyBinding, CurrencyViewModel>() {
 

@@ -19,7 +19,6 @@ import com.rikvanvelzen.codingtest.data.models.domain.CurrencyRates
 import com.rikvanvelzen.codingtest.domain.CurrencyListUseCase
 import com.rikvanvelzen.codingtest.domain.CurrentRateUseCase
 import com.rikvanvelzen.codingtest.ui.screens.base.BaseViewModel
-import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
@@ -28,6 +27,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
 
+const val CURRENCY_ABBREVITAION_EURO = "EUR"
 class CurrencyViewModel
 @Inject constructor(
         private val currencyRatesUseCase: CurrentRateUseCase,
@@ -35,9 +35,10 @@ class CurrencyViewModel
         @Named(SCHEDULER_IO) val subscribeOnScheduler: Scheduler,
         @Named(SCHEDULER_MAIN_THREAD) val observeOnScheduler: Scheduler) : BaseViewModel() {
 
-    private val currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
-    private var currencyData: SingleLiveEvent<List<Currency>>? = null
-    private var baseCurrencyAbbreviation = "EUR"
+    val currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
+    var currencyList: SingleLiveEvent<List<Currency>>? = null
+    var error = MutableLiveData<Throwable>()
+    private var baseCurrencyAbbreviation = CURRENCY_ABBREVITAION_EURO
     private var currencyRatesDisposable: Disposable? = null
 
     var itemPositionToMoveToTop = SingleLiveEvent<Int>()
@@ -70,13 +71,13 @@ class CurrencyViewModel
 
     fun getCurrencyData(): SingleLiveEvent<List<Currency>> {
 
-        if (currencyData == null) {
-            currencyData = SingleLiveEvent()
+        if (currencyList == null) {
+            currencyList = SingleLiveEvent()
             loadCurrencyData()
             loadCurrencyRates()
         }
 
-        return currencyData as SingleLiveEvent<List<Currency>>
+        return currencyList as SingleLiveEvent<List<Currency>>
     }
 
     fun onBaseCurrencyAmountChanged(amount: String?) {
@@ -123,11 +124,10 @@ class CurrencyViewModel
                 .subscribe(
                         { currencies ->
                             isLoading.value = false
-                            currencyData?.value = currencies
+                            currencyList?.value = currencies
                         },
-                        { error ->
-                            // TODO
-                            Log.e(TAG, "TODO Handle error!")
+                        {
+                            error.value = it
                         }
                 )
                 .also { disposables.add(it) }
@@ -139,7 +139,9 @@ class CurrencyViewModel
                 .flatMap { currencyRatesUseCase.getCurrentRates(baseCurrencyAbbreviation) }
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
-                .subscribe { currencyRates.postValue(it) }
+                .subscribe ({ currencyRates.postValue(it) },{
+                    error.value = it
+                })
                 .also { disposables.add(it) }
     }
 }
