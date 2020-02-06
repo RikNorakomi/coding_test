@@ -1,4 +1,4 @@
-package com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.scope
+package com.rikvanvelzen.codingtest.common.dependencyinjection.scope
 
 import javax.inject.Scope
 

@@ -15,7 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.rikvanvelzen.tbocodingchallenge.common.dependencyinjection.ViewModelFactory;
+import com.rikvanvelzen.codingtest.common.dependencyinjection.ViewModelFactory;
 
 import java.lang.reflect.ParameterizedType;
 
