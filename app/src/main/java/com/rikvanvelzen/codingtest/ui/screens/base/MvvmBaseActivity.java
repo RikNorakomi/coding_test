@@ -21,9 +21,17 @@ import java.lang.reflect.ParameterizedType;
 
 import javax.inject.Inject;
 
-public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasAndroidInjector;
+
+public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity implements HasAndroidInjector {
 
     public final String TAG = getClass().getSimpleName();
+
+    @Inject
+    DispatchingAndroidInjector<Object> dispatchingAndroidInjector;
 
     protected B binding;
     protected VM viewModel;
@@ -39,11 +47,12 @@ public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends Bas
     protected abstract int getLayoutResource();
 
     /******************************************************
-     * Activity override methods
+     * Override methods
      ******************************************************/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        AndroidInjection.inject(this); // todo move to base activity
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, getLayoutResource());
@@ -53,6 +62,11 @@ public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends Bas
         binding.setLifecycleOwner(this);
 
         setupBaseViewModelObservers();
+    }
+
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return dispatchingAndroidInjector;
     }
 
     /******************************************************

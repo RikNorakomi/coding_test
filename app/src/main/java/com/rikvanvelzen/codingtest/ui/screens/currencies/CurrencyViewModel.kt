@@ -34,11 +34,11 @@ class CurrencyViewModel
         private val currencyDataUseCase: CurrencyListUseCase,
         @Named(SCHEDULER_IO) val subscribeOnScheduler: Scheduler,
         @Named(SCHEDULER_MAIN_THREAD) val observeOnScheduler: Scheduler) : BaseViewModel() {
-    
+
+    private val currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
     private var currencyData: SingleLiveEvent<List<Currency>>? = null
-    private var currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
-    private var currencyRatesDisposable: Disposable? = null
     private var baseCurrencyAbbreviation = "EUR"
+    private var currencyRatesDisposable: Disposable? = null
 
     var itemPositionToMoveToTop = SingleLiveEvent<Int>()
     var baseCurrencyAmountLD = MutableLiveData<BigDecimal>().default(100.toBigDecimal())

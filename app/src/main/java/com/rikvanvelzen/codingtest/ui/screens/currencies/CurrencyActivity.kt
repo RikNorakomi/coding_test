@@ -18,10 +18,7 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_currency.*
 import javax.inject.Inject
 
-class CurrencyActivity : MvvmBaseActivity<ActivityCurrencyBinding, CurrencyViewModel>(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+class CurrencyActivity : MvvmBaseActivity<ActivityCurrencyBinding, CurrencyViewModel>() {
 
     /**************************************************
      * Lifecycle functions
@@ -30,14 +27,9 @@ class CurrencyActivity : MvvmBaseActivity<ActivityCurrencyBinding, CurrencyViewM
     override fun getLayoutResource(): Int = R.layout.activity_currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this) // todo move to base activity
         super.onCreate(savedInstanceState)
 
         setupViews()
-    }
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return dispatchingAndroidInjector
     }
 
     /**************************************************
