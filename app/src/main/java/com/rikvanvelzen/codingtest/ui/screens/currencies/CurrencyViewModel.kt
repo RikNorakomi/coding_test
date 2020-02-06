@@ -36,8 +36,9 @@ class CurrencyViewModel
         @Named(SCHEDULER_MAIN_THREAD) val observeOnScheduler: Scheduler) : BaseViewModel() {
 
     val currencyRates: MutableLiveData<CurrencyRates> = MutableLiveData()
-    var currencyList: SingleLiveEvent<List<Currency>>? = null
+    var currencyList: MutableLiveData<List<Currency>>? = null
     var error = MutableLiveData<Throwable>()
+    var errorSnackbar = SingleLiveEvent<Unit>()
     private var baseCurrencyAbbreviation = CURRENCY_ABBREVITAION_EURO
     private var currencyRatesDisposable: Disposable? = null
 
@@ -69,15 +70,14 @@ class CurrencyViewModel
         }
     }
 
-    fun getCurrencyData(): SingleLiveEvent<List<Currency>> {
+    fun getCurrencyData(): MutableLiveData<List<Currency>> {
 
         if (currencyList == null) {
-            currencyList = SingleLiveEvent()
-            loadCurrencyData()
-            loadCurrencyRates()
+            currencyList = MutableLiveData()
+            loadData()
         }
 
-        return currencyList as SingleLiveEvent<List<Currency>>
+        return currencyList as MutableLiveData<List<Currency>>
     }
 
     fun onBaseCurrencyAmountChanged(amount: String?) {
@@ -97,6 +97,11 @@ class CurrencyViewModel
 
             loadCurrencyRates()
         }
+    }
+
+    fun loadData() {
+        loadCurrencyData()
+        loadCurrencyRates()
     }
 
     /**
@@ -120,16 +125,12 @@ class CurrencyViewModel
         currencyDataUseCase.getCurrencyList(baseCurrencyAbbreviation)
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
+                .take(1)
                 .doOnSubscribe { isLoading.value = true }
+                .doAfterTerminate { isLoading.postValue(false) }
                 .subscribe(
-                        { currencies ->
-                            isLoading.value = false
-                            currencyList?.value = currencies
-                        },
-                        {
-                            error.value = it
-                        }
-                )
+                        { currencies -> currencyList?.value = currencies },
+                        { errorSnackbar.call() })
                 .also { disposables.add(it) }
     }
 

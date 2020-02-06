@@ -15,8 +15,7 @@ import com.rikvanvelzen.tbocodingchallenge.common.getOrAwaitValue
 import com.rikvanvelzen.tbocodingchallenge.common.whenever
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.anyOf
+import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -113,19 +112,18 @@ class CurrencyViewModelTest {
 
 
     @Test
-    fun loadCurrencyData_getCurrencyListReturnsError_errorLiveDataUpdated() {
+    fun loadCurrencyData_getCurrencyListReturnsError_errorSnackbarLiveDataCalled() {
 
         // Arrange / Given
-        val errorResult = Throwable("error throwable")
         whenever(currentRateUseCase.getCurrentRates(anyString())).thenReturn(Observable.empty())
 
         // Act / When
         whenever(currencyListUseCase.getCurrencyList(anyString()))
-                .thenReturn(Observable.error(errorResult))
+                .thenReturn(Observable.error(Throwable()))
         SUT.getCurrencyData()
 
         // Assert
-        assertEquals(SUT.error.getOrAwaitValue(), errorResult)
+        assertEquals(SUT.errorSnackbar.getOrAwaitValue(), null)
     }
 
     /**************************************************

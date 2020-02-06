@@ -6,4 +6,7 @@
     <string name="currencies_tab_all_rates">All rates</string>
     <string name="currencies_tab_converter">Converter</string>
 
+    <string name="error_snackbar_msg">Unable to load data</string>
+    <string name="error_snackbar_action">Try again</string>
+
 </resources>

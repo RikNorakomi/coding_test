@@ -7,13 +7,14 @@
 package com.rikvanvelzen.codingtest.ui.screens.currencies.converter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.rikvanvelzen.codingtest.R
 import com.rikvanvelzen.codingtest.databinding.CurrencyConverterFragmentBinding
 import com.rikvanvelzen.codingtest.ui.screens.base.MvvmBaseFragment
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
+import kotlinx.android.synthetic.main.currency_converter_fragment.*
 
 class CurrencyConverterFragment : MvvmBaseFragment<CurrencyConverterFragmentBinding, CurrencyViewModel>() {
 
@@ -46,5 +47,10 @@ class CurrencyConverterFragment : MvvmBaseFragment<CurrencyConverterFragmentBind
 
         viewModel.getCurrencyData().observe(viewLifecycleOwner, Observer { adapter.setData(it) })
         viewModel.itemPositionToMoveToTop.observe(viewLifecycleOwner, Observer { adapter.swapItemToTop(it) })
+        viewModel.errorSnackbar.observe(viewLifecycleOwner, Observer {
+            Snackbar.make(container,getString(R.string.error_snackbar_msg),Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.error_snackbar_action)) {viewModel.loadData()}
+                    .show()
+        })
     }
 }
