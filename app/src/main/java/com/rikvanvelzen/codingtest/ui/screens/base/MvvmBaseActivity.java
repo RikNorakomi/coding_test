@@ -52,7 +52,7 @@ public abstract class MvvmBaseActivity<B extends ViewDataBinding, VM extends Bas
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidInjection.inject(this); // todo move to base activity
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, getLayoutResource());

@@ -13,7 +13,6 @@ import com.rikvanvelzen.codingtest.common.kotlin.showKeyboard
 import com.rikvanvelzen.codingtest.common.utils.StringFormatUtil
 import com.rikvanvelzen.codingtest.data.models.domain.Currency
 import com.rikvanvelzen.codingtest.databinding.CurrencyItemBinding
-import com.rikvanvelzen.codingtest.ui.screens.currencies.BaseViewHolder
 import com.rikvanvelzen.codingtest.ui.screens.currencies.CurrencyViewModel
 import java.math.BigDecimal
 
@@ -21,7 +20,7 @@ private const val TEXT_WATCHER_ALREADY_SET_TAG = "text watcher set!"
 
 class VHCurrencyConverterItem(private val binding: CurrencyItemBinding,
                               private val viewModel: CurrencyViewModel,
-                              private val lifecycleOwner: LifecycleOwner) : BaseViewHolder(binding.root) {
+                              private val lifecycleOwner: LifecycleOwner) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
 
     companion object {
         val stringFormatUtil = StringFormatUtil()

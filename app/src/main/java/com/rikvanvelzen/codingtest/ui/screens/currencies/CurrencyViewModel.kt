@@ -6,7 +6,6 @@
 
 package com.rikvanvelzen.codingtest.ui.screens.currencies
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rikvanvelzen.codingtest.common.MultipleLiveDataTransformation
@@ -28,6 +27,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 const val CURRENCY_ABBREVITAION_EURO = "EUR"
+
 class CurrencyViewModel
 @Inject constructor(
         private val currencyRatesUseCase: CurrentRateUseCase,
@@ -139,7 +139,7 @@ class CurrencyViewModel
                 .flatMap { currencyRatesUseCase.getCurrentRates(baseCurrencyAbbreviation) }
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
-                .subscribe ({ currencyRates.postValue(it) },{
+                .subscribe({ currencyRates.postValue(it) }, {
                     error.value = it
                 })
                 .also { disposables.add(it) }
