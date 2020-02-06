@@ -1,6 +1,7 @@
 package com.rikvanvelzen.codingtest.common.dependencyinjection.modules
 
-import com.rikvanvelzen.codingtest.data.api.CurrencyApi
+import com.rikvanvelzen.codingtest.data.api.OpenExchangeRatesApi
+import com.rikvanvelzen.codingtest.data.api.RevolutApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,24 +11,31 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val CURRENCY_BASE_URL = "https://revolut.duckdns.org"
+const val REVOLUT_BASE_URL = "https://revolut.duckdns.org"
+const val OPEN_EXCHANGE_RATES_BASE_URL = "https://openexchangerates.org/api/"
 
 @Module
 class NetworkModule {
 
     @Singleton
     @Provides
-    fun getRetrofit(okHttpClient: OkHttpClient): Retrofit =
+    fun getRetrofit(okHttpClient: OkHttpClient): Retrofit.Builder =
             Retrofit.Builder()
-                    .baseUrl(CURRENCY_BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
-                    .build()
+    
+    @Singleton
+    @Provides
+    fun getRevolutApi(retrofit: Retrofit.Builder): RevolutApi = retrofit
+            .baseUrl(REVOLUT_BASE_URL)
+            .build().create(RevolutApi::class.java)
 
     @Singleton
     @Provides
-    fun getCurrencyService(retrofit: Retrofit): CurrencyApi = retrofit.create(CurrencyApi::class.java)
+    fun getOpenExchangeRatesApi(retrofit: Retrofit.Builder): OpenExchangeRatesApi = retrofit
+            .baseUrl(OPEN_EXCHANGE_RATES_BASE_URL)
+            .build().create(OpenExchangeRatesApi::class.java)
 
     @Singleton
     @Provides
