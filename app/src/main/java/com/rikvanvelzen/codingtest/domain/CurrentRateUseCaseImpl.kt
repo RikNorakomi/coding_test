@@ -15,6 +15,9 @@ class CurrentRateUseCaseImpl(private val currencyRepository: CurrencyRepository)
     override fun getCurrentRates(baseCurrencyAbbreviation: String): Observable<CurrencyRates> {
 
         return currencyRepository.getCurrencyRatesRx(baseCurrencyAbbreviation)
+                .map {
+                    CurrencyRates(it.rates ?: emptyMap(), baseCurrencyAbbreviation)
+                }
     }
 }
 

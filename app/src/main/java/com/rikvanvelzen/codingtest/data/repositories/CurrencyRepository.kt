@@ -14,7 +14,6 @@ import com.rikvanvelzen.codingtest.data.models.dto.CurrencyRatesDTO
 import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
-import java.util.concurrent.TimeUnit
 
 class CurrencyRepository(private val currencyApi: CurrencyApi,
                          private val countryDataProvider: CountryDataProvider) {
@@ -25,17 +24,14 @@ class CurrencyRepository(private val currencyApi: CurrencyApi,
      * Public functions
      **************************************************/
 
-    fun getCurrencyRatesRx(baseCurrencyAbbreviation: String): Observable<CurrencyRates> {
+    fun getCurrencyRatesRx(baseCurrencyAbbreviation: String): Observable<CurrencyRatesDTO> {
         return currencyApi.getCurrencyRatesRx(baseCurrencyAbbreviation)
-                .map {
-                    CurrencyRates(it.rates ?: emptyMap(), baseCurrencyAbbreviation)
-                }
     }
 
     fun getCurrencyListObservableRx(baseCurrencyAbbreviation: String): Observable<ArrayList<Currency>> {
 
         val namesObservable = getCurrencyNamesObservable()
-        val ratesObservable = getRatesObservable(baseCurrencyAbbreviation)
+        val ratesObservable = currencyApi.getCurrencyRatesRx(baseCurrencyAbbreviation)
 
         return Observable.combineLatest<CurrencyNamesDTO, CurrencyRatesDTO, ArrayList<Currency>>(
                 namesObservable,
@@ -97,11 +93,5 @@ class CurrencyRepository(private val currencyApi: CurrencyApi,
 
                     response
                 }
-    }
-
-    private fun getRatesObservable(baseCurrency: String): Observable<CurrencyRatesDTO>? {
-
-        return Observable.interval(0, 1, TimeUnit.SECONDS)
-                .flatMap { currencyApi.getCurrencyRatesRx(baseCurrency) }
     }
 }
