@@ -7,6 +7,7 @@
 package com.rikvanvelzen.codingtest.common.dependencyinjection.modules;
 
 import com.rikvanvelzen.codingtest.data.providers.CountryDataProvider;
+import com.rikvanvelzen.codingtest.data.providers.CountryDataProviderImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,6 +17,6 @@ public class DataProviderModule {
 
     @Provides
     CountryDataProvider getCountryDataProvider() {
-        return new CountryDataProvider();
+        return new CountryDataProviderImpl();
     }
 }

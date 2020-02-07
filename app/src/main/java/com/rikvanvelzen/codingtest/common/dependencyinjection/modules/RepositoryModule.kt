@@ -3,6 +3,7 @@ package com.rikvanvelzen.codingtest.common.dependencyinjection.modules
 import com.rikvanvelzen.codingtest.data.api.OpenExchangeRatesApi
 import com.rikvanvelzen.codingtest.data.api.RevolutApi
 import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepository
+import com.rikvanvelzen.codingtest.data.repositories.CurrencyRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -13,5 +14,5 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun providesBPIRatesRepository(revolutApi: RevolutApi, openExchangeRatesApi: OpenExchangeRatesApi)
-            : CurrencyRepository = CurrencyRepository(revolutApi, openExchangeRatesApi)
+            : CurrencyRepository = CurrencyRepositoryImpl(revolutApi, openExchangeRatesApi)
 }

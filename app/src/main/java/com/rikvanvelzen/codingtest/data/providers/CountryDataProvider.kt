@@ -13,10 +13,15 @@ const val COUNTRY_FLAGS_URL = "https://hatscripts.github.io/circle-flags/flags/"
 const val IMAGE_FILE_TYPE = ".svg"
 const val COUNTRY_CODE_EU = "european_union"
 
-class CountryDataProvider {
+interface CountryDataProvider {
+    fun getCountryFlagUrl(currencyAbbreviation: String): String?
+    fun getCountryCodeFromName(countryName: String?): String?
+}
+
+class CountryDataProviderImpl : CountryDataProvider {
 
     @SuppressLint("DefaultLocale")
-    fun getCountryFlagUrl(currencyAbbreviation: String): String? {
+    override fun getCountryFlagUrl(currencyAbbreviation: String): String? {
 
         if (currencyAbbreviation.length < 2) return null
 
@@ -28,7 +33,7 @@ class CountryDataProvider {
         return "$COUNTRY_FLAGS_URL$countryCode$IMAGE_FILE_TYPE"
     }
 
-    fun getCountryCodeFromName(countryName: String?): String? {
+    override fun getCountryCodeFromName(countryName: String?): String? {
 
         val countries: MutableMap<String, String> = HashMap()
 

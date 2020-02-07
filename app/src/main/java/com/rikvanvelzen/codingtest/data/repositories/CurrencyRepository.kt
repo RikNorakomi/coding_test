@@ -12,8 +12,14 @@ import com.rikvanvelzen.codingtest.data.models.dto.CurrencyNamesDTO
 import com.rikvanvelzen.codingtest.data.models.dto.CurrencyRatesDTO
 import io.reactivex.Observable
 
-class CurrencyRepository(private val revolutApi: RevolutApi,
-                         private val openExchangeRatesApi: OpenExchangeRatesApi) {
+interface CurrencyRepository {
+
+    fun getCurrencyRatesRx(baseCurrencyAbbreviation: String): Observable<CurrencyRatesDTO>
+    fun getCurrencyNamesRx(): Observable<CurrencyNamesDTO>
+}
+
+class CurrencyRepositoryImpl(private val revolutApi: RevolutApi,
+                             private val openExchangeRatesApi: OpenExchangeRatesApi) : CurrencyRepository {
 
     private var currencyNamesCache: CurrencyNamesDTO? = null
 
@@ -21,11 +27,11 @@ class CurrencyRepository(private val revolutApi: RevolutApi,
      * Public functions
      **************************************************/
 
-    fun getCurrencyRatesRx(baseCurrencyAbbreviation: String): Observable<CurrencyRatesDTO> {
+    override fun getCurrencyRatesRx(baseCurrencyAbbreviation: String): Observable<CurrencyRatesDTO> {
         return revolutApi.getCurrencyRatesRx(baseCurrencyAbbreviation)
     }
 
-    fun getCurrencyNamesRx(): Observable<CurrencyNamesDTO> {
+    override fun getCurrencyNamesRx(): Observable<CurrencyNamesDTO> {
 
         if (currencyNamesCache != null) return Observable.just(currencyNamesCache)
 
