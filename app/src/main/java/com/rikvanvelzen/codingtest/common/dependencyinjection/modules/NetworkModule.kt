@@ -1,5 +1,6 @@
 package com.rikvanvelzen.codingtest.common.dependencyinjection.modules
 
+import com.rikvanvelzen.codingtest.BuildConfig
 import com.rikvanvelzen.codingtest.data.api.OpenExchangeRatesApi
 import com.rikvanvelzen.codingtest.data.api.RevolutApi
 import dagger.Module
@@ -24,7 +25,7 @@ class NetworkModule {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
-    
+
     @Singleton
     @Provides
     fun getRevolutApi(retrofit: Retrofit.Builder): RevolutApi = retrofit
@@ -46,7 +47,7 @@ class NetworkModule {
                 }
 
         return OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
+                .apply { if (BuildConfig.DEBUG) addInterceptor(loggingInterceptor) }
                 .build()
     }
 }
